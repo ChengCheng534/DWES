@@ -1,0 +1,22 @@
+<?php
+$nombreUsuario;
+$_edad;
+//$3variable; Tiene que empezar por una letra.
+$DireccionPostal;
+//$total-suma; 
+$ciudad;
+$nombreCompleto;
+$apellido1;
+//$var$;
+$nombre_de_empresa;
+//$1variable;
+$telefono2;
+//$-direccion;
+$paisDeResidencia;
+//$precio_$;
+$_totalSuma;
+$Vehiculo;
+$codigoPostal2023;
+//$var$; 
+//$tiempo-en-segundos;
+?>

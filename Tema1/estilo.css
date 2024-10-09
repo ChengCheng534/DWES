@@ -1,0 +1,13 @@
+table,td,th{
+    border: 1px solid white;
+    border-collapse: collapse;
+}
+th{
+    background-color: navy;
+    color: white;
+}
+td{
+    background-color: darkturquoise;
+    font-weight: bold;
+    text-align: center;
+}
