@@ -88,8 +88,44 @@ function calcularSumaYMedia(&$suma, &$media, ...$numeros) {
 }
 
 //EJERCICIO 9: Recursividad
+function potencia_recursiva($base, $exponente) {
+    $resultado = 1;
+
+    for ($i=1; $i<=$exponente; $i++){
+        $resultado *= $base;
+    }   
+
+    if ($exponente == 0) {
+        return 1;
+    }
+    return $resultado;
+}
 
 //EJERCICIO 10: Reutilización de funciones
+function divisoresPrimos($numero){
+    $primo = "";
+    $divisores = "";
+    $cadena = "";
+    
+    $divisores = obtenerDivisores($numero);
+    echo "Divisores primos de $numero: ";
+
+
+        
+    
+}
+// Función principal para mostrar los divisores primos de un número
+function divisoresPrimos2($numero) {
+    echo "Divisores primos de $numero: ";
+    for ($i = 1; $i <= $numero; $i++) {
+        if ($numero % $i == 0) { // Si es un divisor
+            if (esPrimo($i)) { // Y si además es primo
+                echo $i . " "; // Imprimir el divisor primo
+            }
+        }
+    }
+    echo PHP_EOL; // Salto de línea al final
+}
 
 //EJERCICIO 11: Funciones de cadenas y gráficas
 
