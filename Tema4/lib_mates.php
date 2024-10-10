@@ -102,33 +102,36 @@ function potencia_recursiva($base, $exponente) {
 }
 
 //EJERCICIO 10: Reutilización de funciones
-function divisoresPrimos($numero){
-    $primo = "";
-    $divisores = "";
-    $cadena = "";
-    
-    $divisores = obtenerDivisores($numero);
-    echo "Divisores primos de $numero: ";
-
-
-        
-    
-}
-// Función principal para mostrar los divisores primos de un número
-function divisoresPrimos2($numero) {
-    echo "Divisores primos de $numero: ";
-    for ($i = 1; $i <= $numero; $i++) {
-        if ($numero % $i == 0) { // Si es un divisor
-            if (esPrimo($i)) { // Y si además es primo
-                echo $i . " "; // Imprimir el divisor primo
-            }
+function divisores($num) {
+    $divisores = array();
+    for ($i = 1; $i <= $num; $i++) {
+        if ($num % $i == 0) {
+            $divisores[] = $i;
         }
     }
-    echo PHP_EOL; // Salto de línea al final
+    return $divisores;
+}
+// Función para mostrar los divisores primos de un número usando 'for' en lugar de 'foreach'
+function divisoresPrimos($num) {
+    $divisores = divisores($num); // Obtener los divisores
+    $totalDivisores = count($divisores); // Contar los divisores
+    
+    for ($i = 0; $i < $totalDivisores; $i++) {
+        if (esPrimo($divisores[$i])) {
+            echo $divisores[$i] . " "; // Imprimir solo los divisores que son primos
+        }
+    }
 }
 
-//EJERCICIO 11: Funciones de cadenas y gráficas
-
 //EJERCICIO 12: Recursividad
+// Función recursiva para convertir un número decimal a binario
+function decimalABinario($n) {
+    // Caso base: cuando n es 0, se retorna una cadena vacía
+    if ($n == 0) {
+        return '';
+    }
 
+    // Llamada recursiva: Dividimos el número por 2 y tomamos el resto
+    return decimalABinario(intval($n / 2)) . ($n % 2);
+}
 ?>
