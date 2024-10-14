@@ -125,13 +125,34 @@ function divisoresPrimos($num) {
 
 //EJERCICIO 12: Recursividad
 // Función recursiva para convertir un número decimal a binario
+function decimalBinario($num){
+    if ($num<2) {
+        echo $num;
+    } else {
+        decimalBinario((int)($num/2));
+        echo $num %2;
+    }
+}
+
 function decimalABinario($n) {
     // Caso base: cuando n es 0, se retorna una cadena vacía
     if ($n == 0) {
         return '';
     }
-
     // Llamada recursiva: Dividimos el número por 2 y tomamos el resto
     return decimalABinario(intval($n / 2)) . ($n % 2);
 }
+
+//EJERCICIO 13: Creación y Uso de Objetos
+
+
+//EJERCICIO 14: Clonación de Objetos
+
+
+//EJERCICIO 15: Constructor y Destructor
+
+
+//EJERCICIO 16: Métodos y Propiedades Estáticas
+
+
 ?>
