@@ -17,6 +17,7 @@
             for ($i=$longitud-1; $i >=0 ; $i--) { 
                 $cadenaR .=$textoLimpio[$i];
             }
+            
             if ($cadena != $cadenaR) {
                 return "No es polindramo\n";
             }else{
@@ -97,10 +98,10 @@
             $longitud = strlen($this->texto);
             for ($i = 0; $i < $longitud; $i++) {
                 if ($this->texto[$i] === $caracter) {
-                    return true."Si exite\n";
+                    return "Exite el caracter $caracter\n";
                 }
             }
-            return "NO exixte\n";
+            return "NO exixte el caracter $caracter\n";
         }
         public function reemplazarCaracter($buscar, $reemplazar) {
             $resultado = '';
@@ -127,44 +128,35 @@
     }
 
     echo "<br>Metodo 1:\t";
-    $texto1 = new Palabra("ala vala");
+    $texto1 = new Palabra("Amo la paloma");
     echo $texto1->esPalindromo();
 
     echo "<br>Metodo 2:\t";
-    $texto2 = new Palabra("Hola Mundo");
-    echo $texto2->invertir();
+    echo $texto1->invertir();
 
     echo "<br>Metodo 3:\t";
-    $texto3 = new Palabra("Adios Mundo");
-    echo $texto3->contarVocales();
+    echo $texto1->contarVocales();
 
     echo "<br>Metodo 4:\t";
-    $texto4 = new Palabra("Desarrollo de Aplicaiones Web en Entornos Servidor");
-    echo $texto4->contadorConsonantes();
+    echo $texto1->contadorConsonantes();
 
     echo "<br>Metodo 5:\t";
-    $texto5 = new Palabra("desarrollo de aplicaciones web");
-    echo $texto5->mayusculas();
+    echo $texto1->mayusculas();
 
     echo "<br>Metodo 6:\t";
-    $texto6 = new Palabra("DESARROLLO DE APLICACIONES WEB");
-    echo $texto6->minusculas();
+    echo $texto1->minusculas();
 
     echo "<br>Metodo 7:\t";
-    $texto7 = new Palabra("Reemplazar Vocales");
-    echo  $texto7->reemplazarVocales("o");
+    echo  $texto1->reemplazarVocales("o");
 
     echo "<br>Metodo 8:\t";
-    $texto8 = new Palabra("Longitud de palabra");
-    echo  $texto8->longitud();
+    echo  $texto1->longitud();
 
     echo "<br>Metodo 9:\t";
-    $texto9 = new Palabra("Contiene caracter");
-    echo  $texto9->contieneCaracter("");
+    echo  $texto1->contieneCaracter("a");
 
     echo "<br>Metodo 10:\t";
-    $texto10 = new Palabra("Reemplazar caracter");
-    echo  $texto10->reemplazarCaracter("a","e");
+    echo  $texto1->reemplazarCaracter("a","e");
 
     echo "<br>Metodo 11:\t";
 
