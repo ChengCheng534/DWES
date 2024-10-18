@@ -16,14 +16,16 @@
             echo "\tEstado: ".$this->estaAlquilado."\n";
         }
 
-        public function aquilar($estaAlquilado, $valor) {
-            if (property_exists($this, $estaAlquilado)) {
-                $this->$estaAlquilado = $valor;
+        public function aquilar($estaAlquilado, $verdadero) {
+            if ($verdadero == true) {
+                $this->$estaAlquilado = "alquilado";
+                return "-El vehiculo ha sido alquilado.\n";
             }
         }
-        public function devolver($estaAlquilado, $valor) {
-            if (property_exists($this, $estaAlquilado)) {
-                $this->$estaAlquilado = $valor;
+        public function devolver($estaAlquilado, $verdadero) {
+            if ($verdadero == true) {
+                $this->$estaAlquilado = "disponible";
+                return "-El vehiculo ha sido devuelto.\n";
             }
         }
     }
@@ -45,7 +47,9 @@
 
     echo $coche1->mostrarIformacion();
 
-    echo $coche1->aquilar("estaAlquilado","devuelto");
+    echo $coche1->aquilar("estaAlquilado",true);
     echo $coche1->mostrarIformacion();
 
+    echo $coche1->devolver("estaAlquilado",true);
+    echo $coche1->mostrarIformacion();
 ?>
