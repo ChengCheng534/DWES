@@ -1,55 +1,97 @@
 <?php
-    class Vehiculo{
-        public $matricula, $marca, $modelo, $tipo;
-        private $estaAlquilado = "Disponible";
-        
-        public function __construct($matricula){
-            $this->matricula=$matricula;
-        }
 
-        public function mostrarIformacion(){
-            echo "Vehiculo: \n"; 
-            echo "\tMatrícula: ".$this->matricula."\n";
-            echo "\tMarca: ".$this->marca."\n";
-            echo "\tModelo: ".$this->modelo."\n";
-            echo "\tTipo: ".$this->tipo."\n";
-            echo "\tEstado: ".$this->estaAlquilado."\n";
-        }
+class Racional {
+    private $numerador;
+    private $denominador;
 
-        public function aquilar($estaAlquilado, $verdadero) {
-            if ($verdadero == true) {
-                $this->$estaAlquilado = "alquilado";
-                return "-El vehiculo ha sido alquilado.\n";
-            }
-        }
-        public function devolver($estaAlquilado, $verdadero) {
-            if ($verdadero == true) {
-                $this->$estaAlquilado = "disponible";
-                return "-El vehiculo ha sido devuelto.\n";
-            }
-        }
+    /*
+    public function constructoDefecto($numerador=0,$denominador=1){
+        $this->numerador = $numerador;
+        $this->denominador = ($denominador==0) ? 1: $denominador;
     }
 
-    class Cliente{
-        private $nombre, $apellido, $DNI;
-
-        public function __construct($nombre, $apellido, $DNI){
-            $this->nombre = $nombre;
-            $this->apellido = $apellido; 
-            $this->DNI = $DNI;
+    public function constructorParametrizado($numerador, $denominador) {
+        return new Racional($numerador, ($denominador == 0) ? 1 : $denominador);
+    }
+*/
+    public function __construct($numerador, $denominador){
+        $this->numerador = $numerador;
+        $this->denominador =  $denominador;
+    }
+    
+    public function __get($propiedad) {
+        if (property_exists($this, $propiedad)) {
+            return $this->$propiedad;
         }
     }
+    public function __set($propiedad, $valor) {
+        if (property_exists($this, $propiedad)) {
+            $this->$propiedad = $valor;
+        }
+    }
+    
+    public function sumar(Racional $fraccion){
+        $numerador = ($this->__get("numerador")*$fraccion->__get("denominador"))+($this->__get("denominador")*$fraccion->__get("numerador"));
+        $denominador = ($this->__get("denominador")*$fraccion->__get("denominador"));
+        return new Racional($numerador, $denominador);
+    }
 
-    $coche1 = new Vehiculo("1234ABC");
-    $coche1->marca=("mercede");
-    $coche1->modelo=("Amg cla45s");
-    $coche1->tipo=("Coupe");
+    public function restar(Racional $fraccion){
+        $numerador = ($this->__get("numerador")*$fraccion->__get("denominador"))-($this->__get("denominador")*$fraccion->__get("numerador"));
+        $denominador = ($this->__get("denominador")*$fraccion->__get("denominador"));
+        return new Racional($numerador, $denominador);
+    }
 
-    echo $coche1->mostrarIformacion();
+    public function multiplicar(Racional $fraccion){
+        $numerador = ($this->__get("numerador")*$fraccion->__get("numerador"));
+        $denominador = ($this->__get("denominador")*$fraccion->__get("denominador"));
+        return new Racional($numerador, $denominador);
+    }
 
-    echo $coche1->aquilar("estaAlquilado",true);
-    echo $coche1->mostrarIformacion();
+    public function dividir(Racional $fraccion){
+        $numerador = ($this->__get("numerador")*$fraccion->__get("denominador"));
+        $denominador = ($this->__get("denominador")*$fraccion->__get("numerador"));
+        return new Racional($numerador, $denominador);
+    }
 
-    echo $coche1->devolver("estaAlquilado",true);
-    echo $coche1->mostrarIformacion();
+    public function resultado() {
+        echo $this->numerador."\n";
+        echo "----\n";
+        echo $this->denominador."\n";
+    }
+
+    public function esIgual(Racional $fraccion) {
+        if ($this->__get("numerador") * $fraccion->__get("denominador") == $fraccion->__get("numerador") * $this->__get("denominador")) {
+            return "Son Iguales";
+        }else{
+            return "No son Iguales";
+        }      
+    }
+
+    public function copia() {
+        return new Racional($this->numerador, $this->denominador);
+    }
+}
+
+$racional1 = new Racional(2,4);
+$racional2 = new Racional(2,4);
+
+echo "La suma de racional es: \n";
+$suma = $racional1->sumar($racional2);
+echo $suma->resultado();
+
+echo "La resta de racional es: \n";
+$restar = $racional1->restar($racional2);
+echo $restar->resultado();
+
+echo "La multiplicacion de racional es: \n";
+$multiplicar = $racional1->multiplicar($racional2);
+echo $multiplicar->resultado();
+
+echo "La division de racional es: \n";
+$dividir = $racional1->dividir($racional2);
+echo $dividir->resultado();
+
+echo "¿Son iguales?: ".$racional1->esIgual($racional2). "\n";
+
 ?>
