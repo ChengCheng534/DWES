@@ -21,15 +21,27 @@ class Racional {
     }
     
     public function sumar(Racional $fraccion){
-        $numerador = ($this->__get("numerador")*$fraccion->__get("denominador"))+($this->__get("denominador")*$fraccion->__get("numerador"));
-        $denominador = ($this->__get("denominador")*$fraccion->__get("denominador"));
-        return new Racional($numerador, $denominador);
+        if ($this->__get("denominador")==$fraccion->__get("denominador")) {
+            $numerador = $this->__get("numerador")+$fraccion->__get("numerador");
+            $denominador = $this->__get("denominador");
+            return new Racional($numerador, $denominador);
+        }else{
+            $numerador = ($this->__get("numerador")*$fraccion->__get("denominador"))+($this->__get("denominador")*$fraccion->__get("numerador"));
+            $denominador = ($this->__get("denominador")*$fraccion->__get("denominador"));
+            return new Racional($numerador, $denominador);
+        }
     }
 
     public function restar(Racional $fraccion){
-        $numerador = ($this->__get("numerador")*$fraccion->__get("denominador"))-($this->__get("denominador")*$fraccion->__get("numerador"));
-        $denominador = ($this->__get("denominador")*$fraccion->__get("denominador"));
-        return new Racional($numerador, $denominador);
+        if ($this->__get("denominador")==$fraccion->__get("denominador")) {
+            $numerador = $this->__get("numerador")-$fraccion->__get("numerador");
+            $denominador = $this->__get("denominador");
+            return new Racional($numerador, $denominador);
+        }else{
+            $numerador = ($this->__get("numerador")*$fraccion->__get("denominador"))-($this->__get("denominador")*$fraccion->__get("numerador"));
+            $denominador = ($this->__get("denominador")*$fraccion->__get("denominador"));
+            return new Racional($numerador, $denominador);
+        }
     }
 
     public function multiplicar(Racional $fraccion){
@@ -46,9 +58,9 @@ class Racional {
 
     public function esIgual(Racional $fraccion) {
         if ($this->__get("numerador") * $fraccion->__get("denominador") == $fraccion->__get("numerador") * $this->__get("denominador")) {
-            return "Son Iguales";
+            return "Son Iguales.";
         }else{
-            return "No son Iguales";
+            return "No son Iguales.";
         }      
     }
 
@@ -66,31 +78,36 @@ class Racional {
     }
 
     public function resultado() {
-        echo $this->numerador."\n";
-        echo "----\n";
-        echo $this->denominador."\n";
+        echo "\t ".$this->numerador."\n";
+        echo "\t----\n";
+        echo "\t ".$this->denominador."\n";
     }
 }
 
-$racional1 = new Racional(2,4);
-$racional2 = new Racional(2,4);
+$racional1 = new Racional(10,4);
+$racional2 = new Racional(7,4);
 
-echo "La suma de racional es: \n";
+echo "Suma de: ".$racional1->__get("numerador")."/".$racional1->__get("denominador")
+." + ".$racional2->__get("numerador")."/".$racional2->__get("denominador")." es: \n";
 $suma = $racional1->sumar($racional2);
 echo $suma->resultado();
 
-echo "La resta de racional es: \n";
+echo "Resta de: ".$racional1->__get("numerador")."/".$racional1->__get("denominador")
+." - ".$racional2->__get("numerador")."/".$racional2->__get("denominador")." es: \n";
 $restar = $racional1->restar($racional2);
 echo $restar->resultado();
 
-echo "La multiplicacion de racional es: \n";
+echo "Multiplicacion de: ".$racional1->__get("numerador")."/".$racional1->__get("denominador")
+." X ".$racional2->__get("numerador")."/".$racional2->__get("denominador")." es: \n";
 $multiplicar = $racional1->multiplicar($racional2);
 echo $multiplicar->resultado();
 
-echo "La division de racional es: \n";
+echo "División de: ".$racional1->__get("numerador")."/".$racional1->__get("denominador")
+." ÷ ".$racional2->__get("numerador")."/".$racional2->__get("denominador")." es: \n";
 $dividir = $racional1->dividir($racional2);
 echo $dividir->resultado();
 
-echo "¿Son iguales?: ".$racional1->esIgual($racional2). "\n";
-echo "Valor real de la primera fracción: " . $racional1->calculaReal() . "\n";
+echo "¿Las dos fraciones son iguales? ".$racional1->esIgual($racional2). "\n";
+echo "El resultado de calculo es: ".$racional1->calculaReal()."\n";
+
 ?>

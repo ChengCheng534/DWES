@@ -42,14 +42,16 @@
             $this->__set("estaAlquilado", "Devuelto");
             return "\n\t ·El vehículo ya está Devuelto.\n"; 
         }
+
+        public function costeVehiculo(){
+
+        }
     }
 
     class Cliente{
-        private $nombre, $apellido, $DNI;
+        public $nombre, $apellido, $DNI;
 
-        public function __construct($nombre, $apellido, $DNI){
-            $this->nombre = $nombre;
-            $this->apellido = $apellido; 
+        public function __construct($DNI){
             $this->DNI = $DNI;
         }
 
@@ -62,13 +64,13 @@
             echo "_____________________________________________________________\n";
         }
     }
-    
+
 
 
     $coche1 = new Vehiculo("8888TNB");
-    $coche1->marca=("Mercede");
-    $coche1->modelo=("Amg cla45s");
-    $coche1->tipo=("Coupe");
+    $coche1->marca="Mercede";
+    $coche1->modelo="Amg cla45s";
+    $coche1->tipo="Coupe";
 
     //Mostrar informacion del vehiculo
     echo $coche1->mostrarInfo();
@@ -83,9 +85,9 @@
     echo $coche1->mostrarInfo();
     */
 
-    $cliente1 = new Cliente("ChengCheng", "Yu", "C1234567C");
+    $cliente1 = new Cliente("C1234567C");
+    $cliente1->nombre = "ChengCheng";
+    $cliente1->apellido = "Yu";
     echo $cliente1->mostrarInfo();
 
-    $contrato1 = new ContratoAlquiler("8888TNB","ChengCheng");
-    echo $contrato1->mostrarContrato();
 ?>

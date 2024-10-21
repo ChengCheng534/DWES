@@ -1,7 +1,6 @@
 <?php
 
-include 'Coche.php';
-include 'Moto.php';
+include_once 'Auto.php';
 
 // Crear instancias
 $coche = new Coche(50);
