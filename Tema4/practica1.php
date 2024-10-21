@@ -42,10 +42,6 @@
             $this->__set("estaAlquilado", "Devuelto");
             return "\n\t ·El vehículo ya está Devuelto.\n"; 
         }
-
-        public function costeVehiculo(){
-
-        }
     }
 
     class Cliente{
@@ -62,6 +58,25 @@
             echo "\tApellido: ".$this->apellido."\n";
             echo "\tDNI: ".$this->DNI."\n";
             echo "_____________________________________________________________\n";
+        }
+    }
+
+    class ContratoAlquiler extends Vehiculo{
+        public $fechaRecogida;
+        public $fechaDevolucion;
+        public $estado;
+
+        public function __construct($matricula, $nombreCliente){
+            parent::__construct($matricula, $nombre);
+            $this->fechaRecogida = new DateTime;
+            $this->estado = "Activo";
+        }
+
+        
+
+
+        public function mostrarInfo(){
+
         }
     }
 
