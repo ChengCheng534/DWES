@@ -4,16 +4,6 @@ class Racional {
     private $numerador;
     private $denominador;
 
-    /*
-    public function constructoDefecto($numerador=0,$denominador=1){
-        $this->numerador = $numerador;
-        $this->denominador = ($denominador==0) ? 1: $denominador;
-    }
-
-    public function constructorParametrizado($numerador, $denominador) {
-        return new Racional($numerador, ($denominador == 0) ? 1 : $denominador);
-    }
-*/
     public function __construct($numerador, $denominador){
         $this->numerador = $numerador;
         $this->denominador =  $denominador;
@@ -54,12 +44,6 @@ class Racional {
         return new Racional($numerador, $denominador);
     }
 
-    public function resultado() {
-        echo $this->numerador."\n";
-        echo "----\n";
-        echo $this->denominador."\n";
-    }
-
     public function esIgual(Racional $fraccion) {
         if ($this->__get("numerador") * $fraccion->__get("denominador") == $fraccion->__get("numerador") * $this->__get("denominador")) {
             return "Son Iguales";
@@ -70,6 +54,21 @@ class Racional {
 
     public function copia() {
         return new Racional($this->numerador, $this->denominador);
+    }
+
+    public function setRacional($numerador, $denominador) {
+        $this->numerador = $numerador;
+        $this->denominador = $denominador;
+    }
+
+    public function calculaReal() {
+        return $this->numerador / $this->denominador;
+    }
+
+    public function resultado() {
+        echo $this->numerador."\n";
+        echo "----\n";
+        echo $this->denominador."\n";
     }
 }
 
@@ -93,5 +92,5 @@ $dividir = $racional1->dividir($racional2);
 echo $dividir->resultado();
 
 echo "¿Son iguales?: ".$racional1->esIgual($racional2). "\n";
-
+echo "Valor real de la primera fracción: " . $racional1->calculaReal() . "\n";
 ?>

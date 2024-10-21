@@ -62,50 +62,8 @@
             echo "_____________________________________________________________\n";
         }
     }
+    
 
-    class ContratoAlquiler{
-        public $vehiculo;
-        public $cliente;
-        public $estado;
-        public $costoTotal;
-        private $fechaRecogida;
-        private $fechaDevolucion;
-
-        public function __construct($vehiculo, $cliente){
-            $this->vehiculo = $vehiculo;
-            $this->cliente = $cliente;
-            $this->fechaRecogida = new DateTime();
-            $this->estado = "Activo";
-        }
-        
-        public function fechaDevolucion(){
-            $this->fechaDevolucion = new DateTime();
-            $this->vehiculo->devolver();
-            $this->estado = "Finalizado";
-        }
-
-        public function calcularCosto() {
-            if ($this->estado === "Finalizado" && $this->fechaDevolucion) {
-                $interval = $this->fechaRecogida->diff($this->fechaDevolucion);
-                $diasAlquilado = $interval->days;
-                $this->costoTotal = $diasAlquilado * $this->vehiculo->costoDia;
-                return "El costo total del alquiler es: {$this->costoTotal}€ por {$diasAlquilado} días.";
-            } else {
-                return "El vehículo aún no ha sido devuelto.";
-            }
-        }
-
-        public function mostrarContrato(){
-            echo "_____________________________________________________________\n";
-            echo "Contrato: \n"; 
-            echo "\tVehiculo: ".$this->vehiculo."\n";
-            echo "\tCliente: ".$this->cliente."\n";
-            echo "\tModelo: ".$this->fechaRecogida."\n";
-            echo "\tEstado: ".$this->estado."\n";
-            echo "_____________________________________________________________\n";
-        }
-
-    }
 
     $coche1 = new Vehiculo("8888TNB");
     $coche1->marca=("Mercede");
