@@ -40,7 +40,7 @@
 
         public function devolver(){
             $this->__set("estaAlquilado", "Devuelto");
-            return "\n\t ·El vehículo ya está Devuelto.\n"; 
+            return "\n\t ·El vehículo ya está devuelto.\n"; 
         }
     }
 
@@ -61,36 +61,60 @@
         }
     }
 
-    class ContratoAlquiler extends Vehiculo{
+    class ContratoAlquiler{
+        public $vehiculo;
+        public $cliente;
         public $fechaRecogida;
         public $fechaDevolucion;
         public $estado;
 
-        public function __construct($matricula, $nombreCliente){
-            parent::__construct($matricula, $nombre);
-            $this->fechaRecogida = new DateTime;
-            $this->estado = "Activo";
+        public function __construct($coche, $cliente){
+            // Comprobar que los parametros instanceof
+            // Si es correcto los guardo en las propiedades del objeto
+            // Si no es correcto mostrarmos error 
+            if ($coche instanceof Vehiculo && $cliente instanceof Cliente) {
+                // Asignar el vehículo
+                $this->vehiculo = $coche;
+                $this->cliente = $cliente;
+                $this->fechaRecogida = new DateTime;
+                $this->estado = "Activo";
+            }else{
+                echo "Error: El parámetro coche no es una instancia de Vehiculo.\n";
+                echo "Error: El parámetro cliente no es una instancia de Cliente.\n";
+            }
         }
 
-        
+        public function devolverVehiculo($vehiculo){
+            // Comprobamos que el vehiculo con instanceof
+            // === comprobamos que lo cogido es lo que devuelves
+            if ($vehiculo instanceof Vehiculo && $vehiculo === $this->vehiculo) {
+                $this->fechaDevolucion= new DateTime;
+                $this->__set("estado","Finalizado");
+            }else{
+                echo "Error: El parámetro vehiculo no coincide con el vehiculo registrado.\n";
+            }
+        }
 
-
-        public function mostrarInfo(){
-
+        public function __toString(){
+            return $this->estado;
+            /*
+            echo "Vehículo: ".$this->vehiculo."\n";
+            echo "Cliente: ".$this->cliente."\n";
+            echo "Fecha de recogida: ".$this->fechaRecogida->format('Y-m-d H:i:s')."\n";
+            echo "Fecha de Devuelto: ".$this->fechaDevolucion->format('Y-m-d H:i:s')."\n";
+            echo "Estado: ".$this->estado;
+            */
         }
     }
 
-
-
     $coche1 = new Vehiculo("8888TNB");
-    $coche1->marca="Mercede";
-    $coche1->modelo="Amg cla45s";
-    $coche1->tipo="Coupe";
+    $coche1->marca="Renault";
+    $coche1->modelo="Trafic";
+    $coche1->tipo="Furgoneta";
 
     //Mostrar informacion del vehiculo
     echo $coche1->mostrarInfo();
 
-    /*
     //Aquilar el vehiculo
     echo $coche1->alquilar();
     echo $coche1->mostrarInfo();
@@ -98,11 +122,14 @@
     //Devuelver el vehiculo
     echo $coche1->devolver();
     echo $coche1->mostrarInfo();
-    */
 
     $cliente1 = new Cliente("C1234567C");
     $cliente1->nombre = "ChengCheng";
     $cliente1->apellido = "Yu";
     echo $cliente1->mostrarInfo();
 
+
+    $contrato1 = new ContratoAlquiler($coche1, $cliente1);
+    echo $contrato1->devolverVehiculo($coche1);
+    echo $contrato1->__toString();
 ?>
