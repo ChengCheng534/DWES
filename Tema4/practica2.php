@@ -8,6 +8,12 @@ class Racional {
         $this->numerador = $numerador;
         $this->denominador =  $denominador;
     }
+    /*
+    public function __construct () {
+        $this->numerador = 3;
+        $this->denominador= 5;
+    }
+    */
     
     public function __get($propiedad) {
         if (property_exists($this, $propiedad)) {
@@ -21,21 +27,21 @@ class Racional {
     }
     
     public function sumar(Racional $fraccion){
-        if ($this->__get("denominador")==$fraccion->__get("denominador")) {
-            $numerador = $this->__get("numerador")+$fraccion->__get("numerador");
-            $denominador = $this->__get("denominador");
+        if ($this->denominador==$fraccion->denominador) {
+            $this->$numerador = $this->numerador+$fraccion->numerador;
+            $this->$denominador = $this->denominador;
             return new Racional($numerador, $denominador);
         }else{
-            $numerador = ($this->__get("numerador")*$fraccion->__get("denominador"))+($this->__get("denominador")*$fraccion->__get("numerador"));
-            $denominador = ($this->__get("denominador")*$fraccion->__get("denominador"));
+            $this->numerador = ($this->numerador*$fraccion->denominador)+($this->denominador*$fraccion->numerador);
+            $this->denominador = ($this->denominador*$fraccion->denominador);
             return new Racional($numerador, $denominador);
         }
     }
 
     public function restar(Racional $fraccion){
-        if ($this->__get("denominador")==$fraccion->__get("denominador")) {
-            $numerador = $this->__get("numerador")-$fraccion->__get("numerador");
-            $denominador = $this->__get("denominador");
+        if ($this->denominador==$fraccion->denominador) {
+            $this->numerador = $this->numerador-$fraccion->numerador;
+            $this->denominador = $this->denominador;
             return new Racional($numerador, $denominador);
         }else{
             $numerador = ($this->__get("numerador")*$fraccion->__get("denominador"))-($this->__get("denominador")*$fraccion->__get("numerador"));
@@ -45,9 +51,9 @@ class Racional {
     }
 
     public function multiplicar(Racional $fraccion){
-        $numerador = ($this->__get("numerador")*$fraccion->__get("numerador"));
+        $this->numerador = ($this->__get("numerador")*$fraccion->__get("numerador"));
         $denominador = ($this->__get("denominador")*$fraccion->__get("denominador"));
-        return new Racional($numerador, $denominador);
+        return new Racional($this->numerador, $this->denominador);
     }
 
     public function dividir(Racional $fraccion){
@@ -57,11 +63,13 @@ class Racional {
     }
 
     public function esIgual(Racional $fraccion) {
-        if ($this->__get("numerador") * $fraccion->__get("denominador") == $fraccion->__get("numerador") * $this->__get("denominador")) {
-            return "Son Iguales.";
-        }else{
-            return "No son Iguales.";
-        }      
+        $f1 = calculaReal();
+        $f2 = $fraccion->numerador / $fraccion->denominador;
+        if ($f1==$f2) 
+            return true;
+        else 
+            return false;
+        
     }
 
     public function copia() {
@@ -77,14 +85,17 @@ class Racional {
         return $this->numerador / $this->denominador;
     }
 
-    public function resultado() {
-        echo "\t ".$this->numerador."\n";
-        echo "\t----\n";
-        echo "\t ".$this->denominador."\n";
+    public function __toString() {
+        $s = "\t ".$this->numerador."\n";
+        $s .= "\t----\n";
+        $s .= "\t ".$this->denominador."\n";
+        return $s;
     }
 }
 
 $racional1 = new Racional(10,4);
+echo $racional1;
+
 $racional2 = new Racional(7,4);
 
 echo "Suma de: ".$racional1->__get("numerador")."/".$racional1->__get("denominador")
