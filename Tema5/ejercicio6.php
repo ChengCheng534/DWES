@@ -23,10 +23,10 @@
         .media {
             background-color: yellow;
         }
-        .masRepite{
+        .moda {
             background-color: blue;
         }
-        .mediana{
+        .mediana {
             background-color: orange;
         }
     </style>
@@ -39,7 +39,7 @@
         $array[] = rand(0, 50);
     }
 
-    // Obtener el valor máximo, mínimo y la media
+    // Calcular el valor máximo, mínimo, y la media
     $max = max($array);
     $min = min($array);
     $media = array_sum($array) / count($array);
@@ -52,21 +52,22 @@
         }
     }
 
-    //Calcular la moda
-    $moda = array_key_exists($array);
+    // Calcular la moda
+    $frecuencias = array_count_values($array);
+    $moda = array_keys($frecuencias, max($frecuencias))[0];
 
-    //Calcular la mediana
-    $media = array_key_exists($array)/count($array);
-
-    if ($moda) {
-        # code...
+    // Calcular la mediana
+    sort($array);
+    $n = count($array);
+    if ($n % 2 == 0) {
+        $mediana = ($array[$n / 2 - 1] + $array[$n / 2]) / 2;
+    } else {
+        $mediana = $array[floor($n / 2)];
     }
 
-
-    // Mostrar el array en una tabla 10x10
+    // Volver a recorrer el array original para mostrar en una tabla 10x10
     echo "<table>";
     for ($i = 0; $i < 10; $i++) {
-        $contador= 0;
         echo "<tr>";
         for ($j = 0; $j < 10; $j++) {
             $index = $i * 10 + $j;
@@ -79,7 +80,11 @@
                 echo "<td class='min'>$value</td>";
             } elseif ($value == $valorCercanoMedia) {
                 echo "<td class='media'>$value</td>";
-            } else{
+            } elseif ($value == $moda) {
+                echo "<td class='moda'>$value</td>";
+            } elseif ($value == $mediana) {
+                echo "<td class='mediana'>$value</td>";
+            } else {
                 echo "<td>$value</td>";
             }
         }
