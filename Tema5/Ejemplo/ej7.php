@@ -32,7 +32,7 @@ function ordenarArray(&$array) {
 }
 
 // Generamos un array con cantidad y valores aleatorios
-$cantidadAleatoria = rand(5, 15);  // Cantidad aleatoria entre 5 y 15 elementos
+$cantidadAleatoria = rand(5, 20);  // Cantidad aleatoria entre 5 y 15 elementos
 $arrayAleatorio = [];
 for ($i = 0; $i < $cantidadAleatoria; $i++) {
     $arrayAleatorio[] = rand(1, 20);  // Generamos números aleatorios entre 1 y 20
@@ -45,11 +45,9 @@ $arraySinRepetidos = sinRepetidos($arrayAleatorio);
 ordenarArray($arraySinRepetidos);
 
 // Mostramos el array original, el array sin duplicados y el array ordenado
-echo "Array original con duplicados: [";
-echo implode(", ", $arrayAleatorio);
-echo "]\n";
+echo "<p>Array original con duplicados: </p>\n";
+echo "<p>[".implode(", ", $arrayAleatorio)."]</p>\n";
 
-echo "Array sin duplicados y ordenado: [";
-echo implode(", ", $arraySinRepetidos);
-echo "]";
+echo "<p>Array sin duplicados y ordenado: </p>\n";
+echo "<p>[".implode(", ", $arraySinRepetidos)."]</p>";
 ?>

@@ -4,7 +4,8 @@
     </head>
     <body>
         <?php
-            echo "<marquee>Hola Mundo de VSC</marquee>"
+            echo "<marquee>Hola Mundo de VSC</marquee>";
+            $nombre = readline("Como te llama:");
         ?>
     </body>
 </html>
