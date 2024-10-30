@@ -4,7 +4,9 @@
 
     $num = rand (2, 7);
     $jugador = 1;
-    $gana= 0;
+    $gana1 = 0; 
+    $gana2 = 0;
+    $empate = 0;
 
     echo "<p>Actualiza la pagina para mostrar una nueva tirada.</p>\n";
 
@@ -29,8 +31,24 @@
 
     }
 
+    for ($i = 0; $i < $num; $i++) {
+        if ($array1[$i] > $array2[$i]) {
+            $gana1++;
+        } elseif ($array2[$i] > $array1[$i]) {
+            $gana2++;
+        } elseif ($array2[$i] == $array1[$i]) {
+            $empate++;
+        }
+    }
     echo "<p><b>Resultado</b><p>\n";
-    echo "<p>Los numeros lanzado por el jugador 1: ".implode(" ",$array1)."<p>";
-    echo "<p>Los numeros lanzado por el jugador 2: ".implode(" ",$array2)."<p>";
+    echo "<p>El jugador 1 ha ganado ".$gana1." veces, el jugador 2 ha ganado ".$gana2." veces y los jugadores han empateado ".$empate." veces.</p>\n";
+    if ($gana1 > $gana2) {
+        echo "<p><b>El ganador es el Jugador 1</b> con $gana1 rondas ganadas.</p>";
+    } elseif ($gana2 > $gana1) {
+        echo "<p><b>El ganador es el Jugador 2</b> con $gana2 rondas ganadas.</p>";
+    } else {
+        echo "<p><b>Empate</b>. Ambos jugadores ganaron el mismo número de rondas.</p>";
+    }
     
+
 ?>
