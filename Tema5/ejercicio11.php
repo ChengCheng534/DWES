@@ -1,51 +1,35 @@
 <?php
-    $cadena1 = "1,3,5,7,9";
-    $cadena2 = "2,4,6,8,10"; 
-
-    function procesarListas($cadena1, $cadena2){
-        //Convertir cadena string a numero entero
-        $converEntero1 = array(explode(",", $cadena1));
-        $converEntero2 = array(explode(",", $cadena2));
-
-        //Combinar los dos arrays en una
-        $combinar = array_merge($converEntero1,$converEntero2);
-        return $combinar;
-
-        //Eliminar los valores repetido de la array
-        $valorRepetido = array_unique($combinar);
-
-        //Ordenar el array
-        $ordenar = sort($valorRepetido);
-
-        return $valorRepetido;
-    }
-
-    //Convertir cadena string a numero entero
-    $convertirEntero1 = explode(",", $cadena1);
-    $convertirEntero2 = explode(",", $cadena2);
-
-    echo $convertirEntero1[1];
-    echo $convertirEntero2[1];
-
-    //Combinar los dos arrays en una
-    $combinar = array_merge($convertirEntero1,$convertirEntero2);
-
-    //Eliminar los valores repetido de la array
-    $valorRepetido = array_unique($combinar);
-
-    //Ordenar el array
-    sort($valorRepetido);
-    foreach ($valorRepetido as $valor => $num) {
-        echo $valor.",";
-    }
-
-    //Suma de array
-    $suma1 = array_sum($convertirEntero1);
-    $suma1 = array_sum($convertirEntero1);
+function procesarListas($lista1, $lista2) {
+    // 1. Convertir cada string en un array de números enteros
+    $array1 = array_map('intval', explode(',', $lista1));
+    $array2 = array_map('intval', explode(',', $lista2));
     
-    //Convertor array numerico al string
-    $string = implode(",",$combinar);
-    echo "\n".$string;
+    // 2. Combinar ambos arrays en uno solo
+    $arrayCombinado = array_merge($array1, $array2);
+    
+    // 3. Eliminar duplicados del array combinado
+    $arrayUnico = array_unique($arrayCombinado);
+    
+    // 4. Ordenar el array resultante en orden ascendente
+    sort($arrayUnico);
+    
+    // 5. Calcular la suma de los elementos únicos
+    $suma = array_sum($arrayUnico);
+    
+    // 6. Convertir el array ordenado de números únicos a un string
+    $numerosCadena = implode(',', $arrayUnico);
+    
+    // 7. Retornar un array asociativo con los resultados
+    return [
+        "números" => $numerosCadena,
+        "suma" => $suma
+    ];
+}
 
-    $array = array("numeros" -> $valor, "suma"-> $suma1);
+$cadena1 = "1,2,3,4,5,6,7";
+$cadena2 = "3,4,5,6,7,8,9"; 
+
+$resultado = procesarListas($cadena1, $cadena2);
+print_r($resultado);
+//echo implode(",", $resultado);
 ?>
