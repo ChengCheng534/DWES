@@ -45,7 +45,22 @@
         $cliente10->id => $cliente10,
     ];
 
-    $str = <<<'MENU'
+    /*
+    $arrayClientes = array(
+        $cliente1->id => $cliente1, 
+        $cliente2->id => $cliente2,
+        $cliente3->id => $cliente3,
+        $cliente4->id => $cliente4,
+        $cliente5->id => $cliente5,
+        $cliente6->id => $cliente6,
+        $cliente7->id => $cliente7,
+        $cliente8->id => $cliente8,
+        $cliente9->id => $cliente9,
+        $cliente10->id => $cliente10,
+    );
+    */
+
+    $menu = <<<'MENU'
     1.Mostrar el primer cliente.
     2.Mostrar el último cliente.
     3.Mostrar el siguiente cliente.
@@ -53,7 +68,7 @@
     5.Mostrar listado completo.
     6.Salir del programa.
     MENU;
-    echo $str;
+    echo $menu;
 
     echo "\n";
     $opcion = readline("Introducen el número de opción: ");
