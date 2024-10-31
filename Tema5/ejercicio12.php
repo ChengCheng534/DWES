@@ -1,3 +1,11 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
 <?php
     $array1 = array();
     $array2 = array();
@@ -8,10 +16,10 @@
     $gana2 = 0;
     $empate = 0;
 
-    echo "<p>Actualiza la pagina para mostrar una nueva tirada.</p>\n";
+    echo "<p>Actualiza la pagina para mostrar una nueva tirada.</p>";
 
     while ($jugador <= 2) {
-        echo "<p>Jugador ".$jugador."</p>\n";
+        echo "\n<p>Jugador ".$jugador."</p>\n";
 
         if ($jugador == 1) {
             for ($i=0; $i < $num; $i++) { 
@@ -40,7 +48,7 @@
             $empate++;
         }
     }
-    echo "<p><b>Resultado</b><p>\n";
+    echo "\n<p><b>Resultado</b><p>\n";
     echo "<p>El jugador 1 ha ganado ".$gana1." veces, el jugador 2 ha ganado ".$gana2." veces y los jugadores han empateado ".$empate." veces.</p>\n";
     if ($gana1 > $gana2) {
         echo "<p><b>El ganador es el Jugador 1</b> con $gana1 rondas ganadas.</p>";
@@ -49,6 +57,6 @@
     } else {
         echo "<p><b>Empate</b>. Ambos jugadores ganaron el mismo número de rondas.</p>";
     }
-    
-
 ?>
+</body>
+</html>
