@@ -8,33 +8,37 @@
 
     //Genera un número aleatorio del 0 al 6
     $num = rand(0,6);
-    $diaSemanal = ["Lunes","Martes","Miercoles","Jueves","Viernes","Sabados","Domingo",];
+    $diaSemanal = ["Lunes","Martes","Miércoles","Jueves","Viernes","Sábado","Domingo"];
 
     //Selecional dia de semana
-    $selectDia = $diaSemanal[$num];
-    //echo $selectDia;
+    $selecionarDia = $diaSemanal[$num];
 
-    $temperatura;
-    $velocidad = "velocidad";
-    $viento = "viento";
-    $humedad = "humedad";
+    //Posiciones del dia
+    $comienzo = strpos($limpiarTexto, $selecionarDia);
+    $final = strpos($limpiarTexto, "%");
 
-    $temLunes = strpos($enlace, "Lun");
-    $temMartes = strpos($enlace, "Mar");
-    $temMiercoles = strpos($enlace, "Lun");
-    $temJueves = strpos($enlace, "Lun");
-    $temViernes = strpos($enlace, "Lun");
-    $temSabado = strpos($enlace, "Lun");
-    $temDomingo = strpos($enlace, "Lun");
+    //Guardar los informacion del dia en el array
+    $tiempo = substr($limpiarTexto, $comienzo, $final);
 
-    $restTemp = substr($enlace, 156614, -157590);
-
-    $resultado1 = substr($enlace, 160517);
-    $resultado2 = substr($enlace, 161492);
+    $espacio = strpos($tiempo, " ");
+    $dia = substr($tiempo, 0 ,$espacio);
     
-    
-    echo $resultado2;
+    $posiTemp = strpos($tiempo, "Sensación térmica");
+    $temperatura = substr($tiempo, $posiTemp+19, 400);
 
+    $posiViento = strpos($tiempo, "Viento");
+    $velocidad = substr($tiempo, $posiViento+6, 300);
 
+    $posHumedad = strpos($tiempo, "Humedad");
+    $humedad = substr($tiempo, $posHumedad+7, 200);
 
+    echo "Día de la semana: ".$dia;
+    echo "<br>";
+    echo "Temperatura: ".$temperatura;
+    echo "<br>";
+    echo "Velocidad del viento: ".$velocidad;
+    echo "<br>";
+    echo "Humedad: ".$humedad;
+    echo "<br>";
+    echo "<br>";
 ?>
