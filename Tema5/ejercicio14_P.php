@@ -12,4 +12,5 @@ usort($arrayTexto, function($texto1, $texto2) {
 });
 
 print_r($arrayTexto);
+//var_dump($arrayTexto);
 ?>
