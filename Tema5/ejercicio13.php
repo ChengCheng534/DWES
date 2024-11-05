@@ -1,3 +1,11 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
 <?php
     //Descargar el HTML de la página web
     $enlace = file_get_contents("https://www.eltiempo.es/logrono.html");
@@ -17,7 +25,7 @@
     $comienzo = strpos($limpiarTexto, $selecionarDia);
     $final = strpos($limpiarTexto, "%");
 
-    //Guardar los informacion del dia en el array
+    //Guardar los informacion del dia en un string
     $tiempo = substr($limpiarTexto, $comienzo, $final);
 
     $espacio = strpos($tiempo, " ");
@@ -39,6 +47,6 @@
     echo "Velocidad del viento: ".$velocidad;
     echo "<br>";
     echo "Humedad: ".$humedad;
-    echo "<br>";
-    echo "<br>";
 ?>
+</body>
+</html>

@@ -5,5 +5,6 @@
         return strlen($texto1)<=>strlen($texto2);
     });
 
-    print_r($arrayTexto);    
+    print_r($arrayTexto);  
+      
 ?>
