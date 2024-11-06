@@ -1,6 +1,4 @@
 <?php
-
-
 $navegacion = readline("Introduce una página: ");
 switch($navegacion){
     case "Home";
