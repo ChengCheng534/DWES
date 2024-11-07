@@ -7,32 +7,65 @@
 </head>
 <body>
 <?php
-    $array1 = array();
-    $array2 = array();
+    $cartasJug1 = array();
+    $cartasJug2 = array();
+    $cartasMesa = array();
     $jugador = 1;
     $contador = 0;
-    //$cartas = array();
+    
+    function iguales($array){
+        if ($array[0]===$array[1]) {
+            return $array[0];
+        }else{
+            return 0;
+        }
+    }
+
+    function parejas($array1, $array2){
+        $igual = array_intersect($array1, $array2);
+        return $igual;
+    }
+
 
     while ($jugador <= 2) {
         echo "\n<p>Jugador ".$jugador."</p>\n";
 
         if ($jugador == 1) {
-            for ($i=0; $i < 3; $i++) { 
+            for ($i=0; $i < 2; $i++) { 
                 $carta = rand(1,10);
-                echo "<img src='../Tema3/cartas/c'".$carta."'.svg' alt=''>";
-                $array1[] = $carta;
+                echo "<img src='../Tema3/cartas/c$carta.svg' alt=''>\n";
+                $cartasJug1[] = $carta;
             }
-            $jugador++;
         }else{
-            for ($i=0; $i < 3; $i++) { 
+            for ($i=0; $i < 2; $i++) { 
                 $carta = rand(1,10);
-                echo "<img src='../Tema3/cartas/".$carta.".svg' alt=''>";
-                $array2[] = $carta;
+                echo "<img src='../Tema3/cartas/c$carta.svg' alt=''>\n";
+                $cartasJug2[] = $carta;
             }
-            $jugador++;
         }
-
+        $jugador++;
     }
+    echo "\n<p>Carta mesa:</p>\n";
+    for ($i=0; $i < 3; $i++) { 
+        $carta = rand(1,10);
+        echo "<img src='../Tema3/cartas/c$carta.svg' alt=''>\n";
+        $cartasMesa[] = $carta;
+    }
+
+    if (iguales($cartasJug1) > iguales($cartasJug2)) {
+        echo "\nGano el jugador 1";
+    }elseif(iguales($cartasJug1) < iguales($cartasJug2)){
+        echo "\nGano el jugador 2";
+    }else{
+        echo "\nEmpate";
+    }
+    //print_r(parejas($cartasJug1, $cartasMesa));
+    //print_r(parejas($cartasJug2, $cartasMesa));
+    //print_r($cartasJug2);
+    echo "<br>";
+    //print_r(iguales($cartasJug1));
+    echo "<br>";
+    //print_r(iguales($cartasJug2));
 ?>
 </body>
 </html>
