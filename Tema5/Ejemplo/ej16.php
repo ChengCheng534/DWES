@@ -1,87 +1,93 @@
-<?php
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Póker Simulado</title>
+</head>
+<body>
+    <?php
+    // Inicializar manos y cartas
+    $cartasJug1 = [];
+    $cartasJug2 = [];
+    $cartasMesa = [];
 
-// Definir baraja de cartas
-$suits = ['corazones', 'diamantes', 'tréboles', 'picas'];
-$values = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
-$deck = [];
-
-foreach ($suits as $suit) {
-    foreach ($values as $value) {
-        $deck[] = ["value" => $value, "suit" => $suit];
-    }
-}
-
-// Función para mezclar y repartir cartas
-function dealCards(&$deck, $numCards) {
-    $hand = [];
-    for ($i = 0; $i < $numCards; $i++) {
-        $randomKey = array_rand($deck);
-        $hand[] = $deck[$randomKey];
-        unset($deck[$randomKey]);
-    }
-    return $hand;
-}
-
-// Mezclar la baraja y repartir cartas
-shuffle($deck);
-$player1Hand = dealCards($deck, 2);
-$player2Hand = dealCards($deck, 2);
-$communityCards = dealCards($deck, 3);
-
-// Función para obtener el valor numérico de una carta
-function getCardValue($card) {
-    if (is_numeric($card)) return $card;
-    switch ($card) {
-        case 'J': return 11;
-        case 'Q': return 12;
-        case 'K': return 13;
-        case 'A': return 14;
-    }
-}
-
-// Función para evaluar manos
-function evaluateHand($hand) {
-    $values = array_map('getCardValue', array_column($hand, 'value'));
-    $counts = array_count_values($values);
-
-    $pairs = $trios = $poker = 0;
-    foreach ($counts as $value => $count) {
-        if ($count == 2) $pairs++;
-        if ($count == 3) $trios++;
-        if ($count == 4) $poker++;
+    // Función para contar la cantidad de veces que aparece una carta
+    function contarCartas($mano) {
+        $conteo = array_count_values($mano);
+        arsort($conteo); // Ordenar de mayor a menor
+        return $conteo;
     }
 
-    if ($poker) return 'Poker';
-    if ($trios) return 'Trio';
-    if ($pairs == 2) return 'Doble Pareja';
-    if ($pairs == 1) return 'Pareja';
-    return 'Carta Alta';
-}
+    // Función para comprobar si hay parejas, tríos, póker y repóker considerando las cartas del jugador y la mesa
+    function comprobarMano($cartasJugador, $cartasMesa) {
+        // Verificar si alguna carta del jugador coincide con las de la mesa
+        $coincide = array_intersect($cartasJugador, $cartasMesa);
 
-// Evaluar cada mano
-$player1BestHand = evaluateHand(array_merge($player1Hand, $communityCards));
-$player2BestHand = evaluateHand(array_merge($player2Hand, $communityCards));
+        // Si no hay coincidencia, no se cuenta la combinación
+        if (empty($coincide)) {
+            return "Nada";
+        }
 
-// Mostrar las manos y las cartas de la mesa
-echo "Jugador 1: \n";
-print_r($player1Hand);
-echo "Jugador 2: \n";
-print_r($player2Hand);
-echo "Cartas de la mesa: \n";
-print_r($communityCards);
+        // Combinar las cartas del jugador con las cartas de la mesa
+        $todasCartas = array_merge($cartasJugador, $cartasMesa);
+        $conteo = contarCartas($todasCartas);
 
-echo "\nResultado:\n";
-echo "Jugador 1: $player1BestHand\n";
-echo "Jugador 2: $player2BestHand\n";
+        // Comprobar combinaciones
+        if (in_array(4, $conteo)) return "Póker";
+        if (in_array(3, $conteo)) return "Trío";
+        if (count(array_filter($conteo, fn($v) => $v == 2)) >= 2) return "Doble pareja";
+        if (in_array(2, $conteo)) return "Pareja";
+        return "Nada";
+    }
 
-// Determinar el ganador
-$rankings = ['Carta Alta' => 1, 'Pareja' => 2, 'Doble Pareja' => 3, 'Trio' => 4, 'Poker' => 5];
-if ($rankings[$player1BestHand] > $rankings[$player2BestHand]) {
-    echo "¡Gana el Jugador 1!";
-} elseif ($rankings[$player1BestHand] < $rankings[$player2BestHand]) {
-    echo "¡Gana el Jugador 2!";
-} else {
-    echo "Empate.";
-}
+    // Repartir cartas a los jugadores
+    function repartirCartas(&$cartasJugador) {
+        for ($i = 0; $i < 2; $i++) {
+            $carta = rand(1, 10);
+            echo "<img src='../../Tema3/cartas/c$carta.svg' alt='Carta jugador'>\n";
+            $cartasJugador[] = $carta;
+        }
+    }
 
-?>
+    // Mostrar cartas comunitarias en la mesa
+    function mostrarCartasMesa(&$cartasMesa) {
+        for ($i = 0; $i < 3; $i++) {
+            $carta = rand(1, 10);
+            echo "<img src='../../Tema3/cartas/c$carta.svg' alt='Carta mesa'>\n";
+            $cartasMesa[] = $carta;
+        }
+    }
+
+    // Repartir cartas a ambos jugadores
+    echo "<p>Jugador 1:</p>";
+    repartirCartas($cartasJug1);
+
+    echo "<p>Jugador 2:</p>";
+    repartirCartas($cartasJug2);
+
+    // Mostrar cartas en la mesa
+    echo "<p>Cartas en la mesa:</p>";
+    mostrarCartasMesa($cartasMesa);
+
+    // Comprobar manos de ambos jugadores usando las cartas de la mesa
+    $resultadoJug1 = comprobarMano($cartasJug1, $cartasMesa);
+    $resultadoJug2 = comprobarMano($cartasJug2, $cartasMesa);
+
+    // Mostrar resultados
+    echo "<p>Jugador 1 tiene: $resultadoJug1</p>";
+    echo "<p>Jugador 2 tiene: $resultadoJug2</p>";
+
+    // Determinar el ganador
+    $valores = ["Nada" => 0, "Pareja" => 1, "Doble pareja" => 2, "Trío" => 3, "Póker" => 4];
+    
+    if ($valores[$resultadoJug1] > $valores[$resultadoJug2]) {
+        echo "<p>Gana el Jugador 1</p>";
+    } elseif ($valores[$resultadoJug1] < $valores[$resultadoJug2]) {
+        echo "<p>Gana el Jugador 2</p>";
+    } else {
+        echo "<p>Empate</p>";
+    }
+    ?>
+</body>
+</html>
