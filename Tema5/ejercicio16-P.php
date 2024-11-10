@@ -84,11 +84,11 @@
     }
 
     echo "<h2>Resultado del partido</h2>";
-    echo "Carta de jugador 1:";
+    echo "<p>Carta de jugador 1:</p>";
     $resultadoJug1 = coincidirMesa($cartasJug1, $cartasMesa);
     echo contarCartas($resultadoJug1);
-    echo "<br>";
-    echo "Carta de jugador 2:";
+
+    echo "<p>Carta de jugador 2:</p>";
     $resultadoJug2 = coincidirMesa($cartasJug2, $cartasMesa);
     echo contarCartas($resultadoJug2);
 ?>
