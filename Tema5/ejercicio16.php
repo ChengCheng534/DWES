@@ -10,23 +10,17 @@
     $cartasJug1 = array();
     $cartasJug2 = array();
     $cartasMesa = array();
-    
     $jugador = 1;
 
-    // Función para combinar cartas de jugador con las cartas en la mesa solo si coinciden
     function coincidirMesa($cartajug, $cartaMesa) {
-        // Verificar si hay alguna carta del jugador que coincida con las cartas de la mesa
         $coincidir = array_intersect($cartajug, $cartaMesa);
         if (!empty($coincidir)) {
-            // Si hay coincidencia, combinar las cartas del jugador con las de la mesa
             return array_merge($cartajug, $cartaMesa);
         } else {
-            // Si no hay coincidencias, el jugador se queda con sus cartas originales
             return $cartajug;
         }
     }
 
-    // Función para contar combinaciones (parejas, tríos, póker, etc.) y devolver la puntuación
     function contarCartas($array) {
         $contador = [];
         foreach ($array as $carta) {
@@ -58,13 +52,12 @@
         return [$puntuacion, $maxCarta];
     }
 
-    // Función para determinar el ganador basado en puntuación y valor de cartas
     function resultado($puntuacionJug1, $maxCartaJug1, $puntuacionJug2, $maxCartaJug2) {
         if ($puntuacionJug1 > $puntuacionJug2) {
             echo "<p>Resultado: Gana el jugador 1</p>";
         } elseif ($puntuacionJug1 < $puntuacionJug2) {
             echo "<p>Resultado: Gana el jugador 2</p>";
-        } else { // Si empatan en puntuación, se desempata por la carta mayor
+        } else { 
             if ($maxCartaJug1 > $maxCartaJug2) {
                 echo "<p>Resultado: Gana el jugador 1 por carta mayor</p>";
             } elseif ($maxCartaJug1 < $maxCartaJug2) {
