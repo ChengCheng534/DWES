@@ -75,7 +75,7 @@ include 'ICocheDAO.php';
             if (file_put_contents($this->ficheroCoche, $json_str) === false) {
                 die("No se pudo guardar el archivo JSON.");
             }
-            echo "La lista de coches ha sido guardada en '$this->ficheroCoche'.\n";
+            echo "El coche con matrícula '$coche->matricula' ha sido añadido del archivo '$this->ficheroCoche'.\n";
         } 
 
         // Devuelve el coche buscado	
@@ -103,31 +103,40 @@ include 'ICocheDAO.php';
 
         // Borrado de coche
         public function eliminar($matricula){
+            // 1. Leer el contenido del archivo JSON
             $json_coche = file_get_contents($this->ficheroCoche);
             if ($json_coche === false) {
                 die("No se pudo leer el archivo.");
             }
+            
+            // 2. Decodificar el JSON en un array de coches
             $arrayCoches = json_decode($json_coche, true);
-            foreach($arrayCoches as $coches){
-                if($coches['matricula'] == $matricula){
-                    unset($arrayCoches['matricula']);
-                    unset($arrayCoches['marca']);
-                    unset($arrayCoches['modelo']);
-                    unset($arrayCoches['Potencia']);
-                    unset($arrayCoches['VelocidadMax']);
-
-                    $json_delete = json_encode($arrayCoches, JSON_PRETTY_PRINT);
-
-                    if (file_put_contents($this->ficheroCoche, $json_delete) === false) {
-                        die("No se pudo guardar el archivo JSON.");
-                    }
-                    echo "La lista de coches ha sido elimiado en '$this->ficheroCoche'.\n";
-                    return -1;
+            $cocheEncontrado = false;
+        
+            // 3. Buscar y eliminar el coche con la matrícula especificada
+            foreach ($arrayCoches as $cont => $coches) {
+                if ($coches['matricula'] == $matricula) {
+                    // Eliminar el coche encontrado
+                    unset($arrayCoches[$cont]);
+                    $cocheEncontrado = true;
+                    break;
                 }
             }
-            echo "Matricula no encontrado.";
+        
+            // 4. Verificar si el coche fue encontrado y eliminado
+            if (!$cocheEncontrado) {
+                echo "Matrícula no encontrada.\n";
+                return;
+            }
+        
+            // 5. Codificar el array actualizado a JSON y guardarlo en el archivo
+            $json_delete = json_encode($arrayCoches, JSON_PRETTY_PRINT);
+            if (file_put_contents($this->ficheroCoche, $json_delete) === false) {
+                die("No se pudo guardar el archivo JSON.");
+            }
+            echo "El coche con matrícula '$matricula' ha sido eliminado del archivo '$this->ficheroCoche'.\n";
         }
-
+        
         // Modificación de Coche
         public function actualizar($matricula, Coche $nuevoCoche){
 
@@ -158,9 +167,9 @@ include 'ICocheDAO.php';
     $coche2 = new Coche("5678DEF", "Ford", "Focus", 130, 200);
     $coche3 = new Coche("9862KHT", "Renault", "Trafic", 120, 250);
 
-    //$cocheDAO->crear($coche3);
+    $cocheDAO->crear($coche3);
     //$cocheDAO->obtenerCoche("5678DEF");
     //$cocheDAO->verTodos();
-    $cocheDAO->eliminar("9862KHT");
-    //$cocheDAO->verTodos();
+    //$cocheDAO->eliminar("9862KHT");
+    $cocheDAO->verTodos();
 ?>

@@ -1,6 +1,6 @@
 <?php
 class CocheDAO implements ICocheDAO {
-    private $filePath = 'coches.json';
+    private $filePath = 'cochesDAO.json';
 
     // Constructor: verifica si el archivo existe, si no, lo crea vacío
     public function __construct() {
