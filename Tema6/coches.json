@@ -1,8 +1,23 @@
-{
-    "1234ABC": {
+[
+    {
+        "matricula": "1234ABC",
         "marca": "Toyota",
         "modelo": "Corolla",
+        "potencia": 110,
+        "velocidadMax": 180
+    },
+    {
+        "matricula": "5678DEF",
+        "marca": "Ford",
+        "modelo": "Focus",
+        "potencia": 130,
+        "velocidadMax": 200
+    },
+    {
+        "matricula": "9862KHT",
+        "marca": "Renault",
+        "modelo": "Trafic",
         "potencia": 120,
-        "velocidadMaxima": 190
+        "velocidadMax": 250
     }
-}
+]
