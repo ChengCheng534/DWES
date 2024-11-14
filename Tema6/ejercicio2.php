@@ -45,7 +45,7 @@ include 'ICocheDAO.php';
             // 1) Leer todo el fichero de coches que esta en JSON
             $json_coche = file_get_contents($this->ficheroCoche);
             if ($json_coche === false) {
-                die("No se pudo leer el archivo.");
+                die("No se pudo leer el archivo.\n");
             }
             
             // 2) Lo conviertes en un array de php
@@ -54,7 +54,7 @@ include 'ICocheDAO.php';
             // 3) Añades dentro del array el coche recibido
             foreach($arrayCoches as $coches){
                 if($coches['matricula'] == $coche->matricula){
-                    echo "El coche ya exixte, no es posible introducirlo nuevamente.";
+                    echo "El coche ya exixte, no es posible introducirlo nuevamente.\n";
                     return -1;
                 }
             }
@@ -73,7 +73,7 @@ include 'ICocheDAO.php';
 
             // 5) Guardas en Json en el fichero
             if (file_put_contents($this->ficheroCoche, $json_str) === false) {
-                die("No se pudo guardar el archivo JSON.");
+                die("No se pudo guardar el archivo JSON.\n");
             }
             echo "El coche con matrícula '$coche->matricula' ha sido añadido del archivo '$this->ficheroCoche'.\n";
         } 
@@ -82,7 +82,7 @@ include 'ICocheDAO.php';
         public function obtenerCoche($matricula){
             $json_coche = file_get_contents($this->ficheroCoche);
             if ($json_coche === false) {
-                die("No se pudo leer el archivo.");
+                die("No se pudo leer el archivo.\n");
             }
 
             $arrayCoches = json_decode($json_coche, true);
@@ -90,15 +90,18 @@ include 'ICocheDAO.php';
             foreach($arrayCoches as $coches){
                 if($coches['matricula'] == $matricula){
                     echo "Coche encontrado.\n";
+                    /*
                     echo "\tMatricula: ".$coches['matricula']."\n";
                     echo "\tMarca: ".$coches['marca']."\n";
                     echo "\tModelo: ".$coches['modelo']."\n";
                     echo "\tPotencia: ".$coches['potencia']."\n";
-                    echo "\tVelocidad Máxima: ".$coches['velocidadMax'];
-                    return -1;
+                    echo "\tVelocidad Máxima: ".$coches['velocidadMax']."\n";
+                    */
+                    return $coches;
                 }
             }
-            echo "Coche no encontrado.";
+            echo "Coche no encontrado.\n";
+            return null;
         }
 
         // Borrado de coche
@@ -106,7 +109,7 @@ include 'ICocheDAO.php';
             // 1. Leer el contenido del archivo JSON
             $json_coche = file_get_contents($this->ficheroCoche);
             if ($json_coche === false) {
-                die("No se pudo leer el archivo.");
+                die("No se pudo leer el archivo.\n");
             }
             
             // 2. Decodificar el JSON en un array de coches
@@ -132,7 +135,7 @@ include 'ICocheDAO.php';
             // 5. Codificar el array actualizado a JSON y guardarlo en el archivo
             $json_delete = json_encode($arrayCoches, JSON_PRETTY_PRINT);
             if (file_put_contents($this->ficheroCoche, $json_delete) === false) {
-                die("No se pudo guardar el archivo JSON.");
+                die("No se pudo guardar el archivo JSON.\n");
             }
             echo "El coche con matrícula '$matricula' ha sido eliminado del archivo '$this->ficheroCoche'.\n";
         }
@@ -142,7 +145,7 @@ include 'ICocheDAO.php';
             // 1. Leer el contenido del archivo JSON
             $json_coche = file_get_contents($this->ficheroCoche);
             if ($json_coche === false) {
-                die("No se pudo leer el archivo.");
+                die("No se pudo leer el archivo.\n");
             }
             
             // 2. Decodificar el JSON en un array de coches
@@ -171,7 +174,7 @@ include 'ICocheDAO.php';
             // 5. Codificar el array actualizado a JSON y guardarlo en el archivo
             $json_modif = json_encode($arrayCoches, JSON_PRETTY_PRINT);
             if (file_put_contents($this->ficheroCoche, $json_modif) === false) {
-                die("No se pudo guardar el archivo JSON.");
+                die("No se pudo guardar el archivo JSON.\n");
             }
             echo "El coche con matrícula '$matricula' ha sido modificado en el archivo '$this->ficheroCoche'.\n";
         } 
@@ -180,20 +183,37 @@ include 'ICocheDAO.php';
         public function verTodos(){
             $json_coche = file_get_contents($this->ficheroCoche);
             if ($json_coche === false) {
-                die("No se pudo leer el archivo.");
+                die("No se pudo leer el archivo.\n");
             }
             $arrayCoches = json_decode($json_coche, true);
             $contador = 1;
-            foreach($arrayCoches as $coches){
-                    echo "Coche ".$contador.":\n";
-                    echo "\tMatricula: ".$coches['matricula']."\n";
-                    echo "\tMarca: ".$coches['marca']."\n";
-                    echo "\tMpdelo: ".$coches['modelo']."\n";
-                    echo "\tPotencia: ".$coches['potencia']."\n";
-                    echo "\tVelocidad Máxima: ".$coches['velocidadMax']."\n";
-                    $contador++;
-            }
             
+            // Imprimir la cabecera de la tabla
+            printf(
+                "%-3s | %-11s | %-15s | %-10s | %-10s | %-15s\n",
+                "N.",
+                "Matrícula",
+                "Marca",
+                "Modelo",
+                "Potencia",
+                "Velocidad Máx"
+            );
+            echo str_repeat("-", 75) . "\n";
+
+            // Imprimir los datos de cada coche en formato de tabla
+            $contador = 1;
+            foreach ($arrayCoches as $coches) {
+                printf(
+                    "%-3d | %-10s | %-15s | %-10s | %-10d | %-15d\n",
+                    $contador,
+                    $coches['matricula'],
+                    $coches['marca'],
+                    $coches['modelo'],
+                    $coches['potencia'],
+                    $coches['velocidadMax']."\n"
+                );
+                $contador++;
+            }   
         }
     }
     $cocheDAO = new CocheDAO();
@@ -201,23 +221,7 @@ include 'ICocheDAO.php';
     $coche2 = new Coche("5678DEF", "Ford", "Focus", 130, 200);
     $coche3 = new Coche("9862KHT", "Renault", "Trafic", 120, 250);
     $nuevoCoche = new Coche("9862KHT", "Opel", "Coupe", 120, 250);
-    
-    //Crear coche.
-    $cocheDAO->crear($coche1);
-    $cocheDAO->crear($coche2);
-    $cocheDAO->crear($coche3);
 
-    //Mostrar determinado coche.
-    //$cocheDAO->obtenerCoche("5678DEF");
-
-    //Eliminar coche.
-    //$cocheDAO->eliminar("1234ABC");
-
-    //Actulizar datos de coches.
-    //$cocheDAO->actualizar("9862KHT",$nuevoCoche);
-
-    //Mostrar todos los coches.
-    //$cocheDAO->verTodos();
 
     $menu = <<<'MENU'
     1) Alta nueva de Coche.
@@ -279,19 +283,34 @@ include 'ICocheDAO.php';
                     $matricula = readline("\nIntroduce la matrícula del coche que deseas modificar: ");
                 }
 
-                //Modificar
-                $marca = readline("Modifica la marca: ");
-                $modelo = readline("Modifica el modelo: ");
-                $potencia = readline("Modifica la potencia: ");
-                $velocidad = readline("Modifica la velocidad máxima: ");
-                $cocheNuevo = new Coche($matricula, $marca, $modelo, $velocidad, $coche);
+                // Obtener el coche existente
+                $cocheActual = $cocheDAO->obtenerCoche($matricula);
+                if ($cocheActual === null) {
+                    echo "Coche no encontrado. No se puede modificar.\n";
+                break;
+                }
 
+                // Solicitar nuevos valores; si se deja en blanco, se mantienen los actuales
+                $marca = readline("Modifica la marca (actual: {$cocheActual['marca']}): ");
+                $modelo = readline("Modifica el modelo (actual: {$cocheActual['modelo']}): ");
+                $potencia = readline("Modifica la potencia (actual: {$cocheActual['potencia']}): ");
+                $velocidad = readline("Modifica la velocidad máxima (actual: {$cocheActual['velocidadMax']}): ");
+
+                // Crear el nuevo objeto Coche con los valores modificados (si no están vacíos)
+                $cocheNuevo = new Coche(
+                    $matricula,
+                    !empty($marca) ? $marca : $cocheActual['marca'],
+                    !empty($modelo) ? $modelo : $cocheActual['modelo'],
+                    !empty($potencia) ? $potencia : $cocheActual['potencia'],
+                    !empty($velocidad) ? $velocidad : $cocheActual['velocidadMax']
+                );
+                
                 $cocheDAO->actualizar($matricula, $cocheNuevo);
                 break;
             case 4:
                 $cocheDAO->verTodos();
                 break;
         }
-        $opcion = readline("\nIntroducen otro número de opción: ");
+        $opcion = readline("\nIntroducen otro número de opción: \n");
     }
 ?>

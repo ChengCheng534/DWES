@@ -2,9 +2,9 @@
     {
         "matricula": "1234ABC",
         "marca": "Opel",
-        "modelo": "coupe",
-        "potencia": "200",
-        "velocidadMax": null
+        "modelo": "Coupe",
+        "potencia": "120",
+        "velocidadMax": "210"
     },
     {
         "matricula": "5678DEF",
@@ -19,5 +19,19 @@
         "modelo": "Trafic",
         "potencia": 120,
         "velocidadMax": 250
+    },
+    {
+        "matricula": "1542KSA",
+        "marca": "Lamborghini",
+        "modelo": "Urus",
+        "potencia": "650",
+        "velocidadMax": "305"
+    },
+    {
+        "matricula": "4562JHD",
+        "marca": "Mercede",
+        "modelo": "AMG",
+        "potencia": "340",
+        "velocidadMax": "290"
     }
 ]
