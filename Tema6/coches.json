@@ -1,10 +1,10 @@
 [
     {
         "matricula": "1234ABC",
-        "marca": "Toyota",
-        "modelo": "Corolla",
-        "potencia": 110,
-        "velocidadMax": 180
+        "marca": "Opel",
+        "modelo": "coupe",
+        "potencia": "200",
+        "velocidadMax": null
     },
     {
         "matricula": "5678DEF",
