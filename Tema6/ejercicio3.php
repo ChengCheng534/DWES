@@ -41,143 +41,199 @@ include 'ICocheDAO.php';
         }
 
         // Alta de coche
-        public function crear(Coche $coche){
-            // 1) Leer todo el fichero de coches que esta en JSON
-            $json_coche = file_get_contents($this->ficheroCoche);
-            if ($json_coche === false) {
-                die("No se pudo leer el archivo.\n");
+        public function crear(Coche $coche) {
+            // Abrir el archivo en modo 'a' para añadir al final
+            $fp = fopen($this->ficheroCoche, 'a');
+    
+            // Verificar si el archivo se abrió correctamente
+            if (!$fp) {
+                echo "No se pudo abrir el archivo para escribir.";
+                return false;
             }
-            
-            // 2) Lo conviertes en un array de php
-            $arrayCoches = json_decode($json_coche, true);
-
-            // 3) Añades dentro del array el coche recibido
-            foreach($arrayCoches as $coches){
-                if($coches['matricula'] == $coche->matricula){
-                    echo "El coche ya exixte, no es posible introducirlo nuevamente.\n";
-                    return -1;
-                }
+    
+            // Escribir los datos del coche en el archivo, separados por "#"
+            $linea = implode("#", [
+                $coche->matricula,
+                $coche->marca,
+                $coche->modelo,
+                $coche->potencia,
+                $coche->velocidadMax
+            ]) . "\n";
+    
+            if (fputs($fp, $linea) === false) {
+                echo "\tError al escribir en el archivo.\n";
+                fclose($fp);
+                return false;
             }
-
-            // Lo añado el coche en el array
-            $arrayCoches[] = [
-                'matricula' => $coche->matricula,
-                'marca' => $coche->marca,
-                'modelo' => $coche->modelo,
-                'potencia' => $coche->potencia,
-                'velocidadMax' => $coche->velocidadMax
-            ];
-        
-            // 4) Conviertes el array a JSON
-            $json_str = json_encode($arrayCoches, JSON_PRETTY_PRINT);
-
-            // 5) Guardas en Json en el fichero
-            if (file_put_contents($this->ficheroCoche, $json_str) === false) {
-                die("No se pudo guardar el archivo JSON.\n");
-            }
-            echo "El coche con matrícula '$coche->matricula' ha sido añadido del archivo '$this->ficheroCoche'.\n";
-        } 
-
-        // Devuelve el coche buscado	
-        public function obtenerCoche($matricula){
-            $json_coche = file_get_contents($this->ficheroCoche);
-            if ($json_coche === false) {
-                die("No se pudo leer el archivo.\n");
-            }
-
-            $arrayCoches = json_decode($json_coche, true);
-
-            foreach($arrayCoches as $coches){
-                if($coches['matricula'] == $matricula){
-                    echo "Coche encontrado.\n";
-                    /*
-                    echo "\tMatricula: ".$coches['matricula']."\n";
-                    echo "\tMarca: ".$coches['marca']."\n";
-                    echo "\tModelo: ".$coches['modelo']."\n";
-                    echo "\tPotencia: ".$coches['potencia']."\n";
-                    echo "\tVelocidad Máxima: ".$coches['velocidadMax']."\n";
-                    */
-                    return $coches;
-                }
-            }
-            echo "Coche no encontrado.\n";
-            return null;
+            //fwrite($fp, $linea);
+            fclose($fp);
+    
+            echo "\tCoche añadido correctamente.\n";
+            return true;
         }
 
-        // Borrado de coche
-        public function eliminar($matricula){
-            // 1. Leer el contenido del archivo JSON
-            $json_coche = file_get_contents($this->ficheroCoche);
-            if ($json_coche === false) {
-                die("No se pudo leer el archivo.\n");
-            }
-            
-            // 2. Decodificar el JSON en un array de coches
-            $arrayCoches = json_decode($json_coche, true);
-            $cocheEncontrado = false;
+        // Devuelve el coche buscado	
+        public function obtenerCoche($matricula) {
+            // Abrir el archivo en modo de lectura
+            $fp = fopen($this->ficheroCoche, 'r');
         
-            // 3. Buscar y eliminar el coche con la matrícula especificada
-            foreach ($arrayCoches as $cont => $coches) {
-                if ($coches['matricula'] == $matricula) {
-                    // Eliminar el coche encontrado
-                    unset($arrayCoches[$cont]);
-                    $cocheEncontrado = true;
-                    break;
-                }
-            }
-        
-            // 4. Verificar si el coche fue encontrado y eliminado
-            if (!$cocheEncontrado) {
-                echo "Matrícula no encontrada.\n";
+            if (!$fp) {
+                echo "No se pudo abrir el archivo para leer.";
                 return;
             }
+        
+            $encontrado = false;
+        
+            // Leer el archivo línea por línea
+            while (($linea = fgets($fp)) !== false) {
+                // Separar la línea por el delimitador "#"
+                $separar = explode("#", $linea);
 
-            // 5. Codificar el array actualizado a JSON y guardarlo en el archivo
-            $json_delete = json_encode($arrayCoches, JSON_PRETTY_PRINT);
-            if (file_put_contents($this->ficheroCoche, $json_delete) === false) {
-                die("No se pudo guardar el archivo JSON.\n");
+                // Si el primer elemento coincide con el ID buscado
+                if (trim($separar[0]) == $matricula) {
+                    // Mostrar el vehículo encontrado
+                    printf(
+                        "%-10s | %-15s | %-10s | %-10s | %-15s",
+                        $separar[0],
+                        $separar[1],
+                        $separar[2],
+                        $separar[3],
+                        $separar[4]
+                    );
+                    $encontrado = true;
+                    break;
+                }                
             }
-            echo "El coche con matrícula '$matricula' ha sido eliminado del archivo '$this->ficheroCoche'.\n";
+        
+            // Cerrar el archivo después de leerlo
+            fclose($fp);
+        
+            // Si no se encontró el vehículo
+            if (!$encontrado) {
+                echo "Vehículo con ID '$idBuscado' no encontrado.\n";
+            }
+        }   
+                
+        // Borrado de coche 
+        public function eliminar($matricula) {
+            // Abrir el archivo original en modo lectura
+            $fp = fopen($this->ficheroCoche, 'r');
+        
+            if (!$fp) {
+                echo "No se pudo abrir el archivo para leer.\n";
+                return false;
+            }
+        
+            // Crear un archivo temporal para escribir los datos actualizados
+            $fpTemp = fopen('temp_coches.txt', 'w');
+            if (!$fpTemp) {
+                echo "No se pudo crear el archivo temporal.\n";
+                fclose($fp);
+                return false;
+            }
+        
+            $encontrado = false;
+        
+            // Leer cada línea del archivo original
+            while (($linea = fgets($fp)) !== false) {
+                // Separar la línea por el delimitador '#'
+                $linea = rtrim($linea);
+        
+                // Separar la línea por el delimitador '#'
+                $datos = explode("#", $linea);
+
+                // Comprobar si la matrícula coincide
+                if (count($datos) > 0 && $datos[0] === $matricula) {
+                    $encontrado = true;
+                    continue; // Saltar esta línea (no se copia al archivo temporal)
+                }
+        
+                // Escribir la línea en el archivo temporal si no coincide la matrícula
+                fputs($fpTemp, $linea. "\n");
+            }
+        
+            // Cerrar ambos archivos
+            fclose($fp);
+            fclose($fpTemp);
+        
+            // Si no se encontró la matrícula, no reemplazamos el archivo
+            if (!$encontrado) {
+                echo "No se encontró ningún coche con la matrícula: $matricula.\n";
+                unlink('temp_coches.txt'); // Eliminar el archivo temporal
+                return false;
+            }
+        
+            // Reemplazar el archivo original con el temporal
+            rename('temp_coches.txt', $this->ficheroCoche);
+            echo "Coche con matrícula $matricula eliminado correctamente.\n";
+            return true;
         }
         
         // Modificación de Coche
-        public function actualizar($matricula, Coche $nuevoCoche){
-            // 1. Leer el contenido del archivo JSON
-            $json_coche = file_get_contents($this->ficheroCoche);
-            if ($json_coche === false) {
-                die("No se pudo leer el archivo.\n");
+        public function actualizar($matricula, Coche $cocheNuevo) {
+            // Abrir el archivo original en modo lectura
+            $fp = fopen($this->ficheroCoche, 'r');
+            if (!$fp) {
+                echo "No se pudo abrir el archivo para leer.\n";
+                return false;
             }
-            
-            // 2. Decodificar el JSON en un array de coches
-            $arrayCoches = json_decode($json_coche, true);
-            $cocheEncontrado = false;
-
-            // 3. Buscar y modificar el coche
-            foreach ($arrayCoches as &$coches) {
-                if ($coches['matricula'] === $matricula) {
-                    // Actualizar los detalles del coche encontrado
-                    $coches['marca'] = $nuevoCoche->marca;
-                    $coches['modelo'] = $nuevoCoche->modelo;
-                    $coches['potencia'] = $nuevoCoche->potencia;
-                    $coches['velocidadMax'] = $nuevoCoche->velocidadMax;
-                    $cocheEncontrado = true;
-                    break;
+        
+            // Crear un archivo temporal para escribir los datos actualizados
+            $fpTemp = fopen('temp_coches.txt', 'w');
+            if (!$fpTemp) {
+                echo "No se pudo crear el archivo temporal.\n";
+                fclose($fp);
+                return false;
+            }
+        
+            $encontrado = false;
+        
+            // Leer cada línea del archivo original
+            while (($linea = fgets($fp)) !== false) {
+                // Eliminar saltos de línea al final de la línea
+                $linea = rtrim($linea);
+        
+                // Separar la línea por el delimitador '#'
+                $datos = explode("#", $linea);
+        
+                // Si la matrícula coincide, actualizar la línea
+                if (count($datos) > 0 && trim($datos[0]) === trim($matricula)) {
+                    $encontrado = true;
+        
+                    // Crear la nueva línea con los datos del coche actualizado
+                    $nuevaLinea = implode("#", [
+                        $cocheNuevo->matricula,
+                        $cocheNuevo->marca,
+                        $cocheNuevo->modelo,
+                        $cocheNuevo->potencia,
+                        $cocheNuevo->velocidadMax
+                    ]) . "\n";
+        
+                    // Escribir la nueva línea en el archivo temporal
+                    fputs($fpTemp, $nuevaLinea);
+                } else {
+                    // Si no es el coche que queremos actualizar, copiar la línea original
+                    fputs($fpTemp, $linea . "\n");
                 }
             }
-
-            // 4. Verificar si el coche fue encontrado y eliminado
-            if (!$cocheEncontrado) {
-                echo "Matrícula no encontrada.\n";
-                return;
+        
+            // Cerrar ambos archivos
+            fclose($fp);
+            fclose($fpTemp);
+        
+            // Si no se encontró la matrícula, no reemplazamos el archivo
+            if (!$encontrado) {
+                echo "No se encontró ningún coche con la matrícula: $matricula.\n";
+                unlink('temp_coches.txt'); // Eliminar el archivo temporal
+                return false;
             }
-
-            // 5. Codificar el array actualizado a JSON y guardarlo en el archivo
-            $json_modif = json_encode($arrayCoches, JSON_PRETTY_PRINT);
-            if (file_put_contents($this->ficheroCoche, $json_modif) === false) {
-                die("No se pudo guardar el archivo JSON.\n");
-            }
-            echo "El coche con matrícula '$matricula' ha sido modificado en el archivo '$this->ficheroCoche'.\n";
-        } 
+        
+            // Reemplazar el archivo original con el temporal
+            rename('temp_coches.txt', $this->ficheroCoche);
+            echo "Coche con matrícula $matricula actualizado correctamente.\n";
+            return true;
+        }   
+        
 
         // devuelve todos los coches almacenados en el fichero
         public function verTodos(){
@@ -185,25 +241,28 @@ include 'ICocheDAO.php';
             $fp = fopen($this->ficheroCoche, 'r');
 
             if (!$fp) {
-                die("No se pudo abrir el archivo para leer.");
+                echo("No se pudo abrir el archivo para leer.");
+                return;
             }
-            
             // Leer y mostrar el archivo línea por línea
             while (($linea = fgets($fp)) !== false) {
                 // Mostrar cada línea leída (ya incluye el salto de línea)
                 $separar = explode("#", $linea);
-                //echo $linea;
-                //print_r($separar);
 
+                // Validar que tenga al menos 5 elementos antes de imprimir
                 
-              
                     printf(
-                        "%-10s | %-15s | %-10s | %-10s | %-15s",
-                        $separar[0],$separar[1],$separar[2],$separar[3],$separar[4]
+                        "%-10s | %-15s | %-10s | %-10s | %-4s",
+                        $separar[0],
+                        $separar[1],
+                        $separar[2],
+                        $separar[3],
+                        $separar[4]
                     );
-                 
+                
             }
-            
+            // Cerrar el archivo después de leerlo
+            fclose($fp); 
         }
     }
     $cocheDAO = new CocheDAO();
@@ -212,12 +271,13 @@ include 'ICocheDAO.php';
     2) Baja por matrícula.
     3) Modificación.
     4) Listado de coches.
-    5) Salir de la aplicación.
+    5) Obtener coche.
+    6) Salir de la aplicación.
     MENU;
     echo $menu;
 
     $opcion = readline("\nIntroducen el número de opción: ");
-    while ($opcion < 5) {
+    while ($opcion < 6) {
         switch($opcion){
             case 1:
                 $matricula = null;
@@ -261,7 +321,7 @@ include 'ICocheDAO.php';
                 $cocheDAO->eliminar($matricula);
                 break;
             case 3:
-                // Solicitar la matrícula del coche a eliminar
+                // Solicitar la matrícula del coche a modificar
                 $matricula = null;
                 while ($matricula == null) {
                     $matricula = readline("\nIntroduce la matrícula del coche que deseas modificar: ");
@@ -294,6 +354,11 @@ include 'ICocheDAO.php';
             case 4:
                 $cocheDAO->verTodos();
                 break;
+            case 5:
+                $matricula = readline("Introducen la matricula: ");
+                $cocheDAO->obtenerCoche($matricula);
+                break;
+
         }
         $opcion = readline("\nIntroducen otro número de opción: \n");
     }
