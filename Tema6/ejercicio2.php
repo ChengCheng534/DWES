@@ -228,12 +228,13 @@ include 'ICocheDAO.php';
     2) Baja por matrícula.
     3) Modificación.
     4) Listado de coches.
-    5) Salir de la aplicación.
+    5) Obtener coche.
+    6) Salir de la aplicación.
     MENU;
     echo $menu;
 
     $opcion = readline("\nIntroducen el número de opción: ");
-    while ($opcion < 5) {
+    while ($opcion < 6) {
         switch($opcion){
             case 1:
                 $matricula = null;
@@ -310,6 +311,9 @@ include 'ICocheDAO.php';
             case 4:
                 $cocheDAO->verTodos();
                 break;
+            case 5:
+                $matricula = readline("Introduce la matricula de coche que quiere modificar:");
+                $cocheDAO->obtenerCoche($matricula);
         }
         $opcion = readline("\nIntroducen otro número de opción: \n");
     }

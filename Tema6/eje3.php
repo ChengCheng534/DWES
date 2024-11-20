@@ -49,14 +49,6 @@ include 'ICocheDAO.php';
             VelocidadMax(10)
         */
         public function crear(Coche $coche) {
-            //Seleccionar el matricula de coche.
-            $matriculaCoche = $coche->matricula;
-
-            if ($this->obtenerCoche($matriculaCoche)  != null) { //Si esta el coche
-                echo "Coche ya existe.\n";
-                //fclose($fp);
-                return false;
-            }
             // Abrir el archivo en modo 'a' para añadir al final
             $fp = fopen($this->ficheroCoche, 'a');
     
@@ -65,15 +57,15 @@ include 'ICocheDAO.php';
                 echo "No se pudo abrir el archivo para escribir.";
                 return false;
             }
-
+            // Escribir los datos del coche en el archivo, separados por "#"
             $linea = implode("#", [
-                str_pad(substr($coche->matricula, 0, 10), 10, " ", STR_PAD_RIGHT),
-                str_pad(substr($coche->marca, 0, 30), 30, " ", STR_PAD_RIGHT),
-                str_pad(substr($coche->modelo, 0, 30), 30, " ", STR_PAD_RIGHT),
-                str_pad(substr($coche->potencia, 0, 10), 10, " ", STR_PAD_RIGHT),
-                str_pad(substr($coche->velocidadMax, 0, 10), 10, " ", STR_PAD_RIGHT)
+                str_pad($coche->matricula, 10, " ", STR_PAD_RIGHT),
+                str_pad($coche->marca, 30, " ", STR_PAD_RIGHT),
+                str_pad($coche->modelo, 30, " ", STR_PAD_RIGHT),
+                str_pad($coche->potencia, 10, " ", STR_PAD_RIGHT),
+                str_pad($coche->velocidadMax, 10, " ", STR_PAD_RIGHT)
             ]) . "\n";
-
+    
             if (fputs($fp, $linea) === false) {
                 echo "\tError al escribir en el archivo.\n";
                 fclose($fp);
@@ -81,7 +73,7 @@ include 'ICocheDAO.php';
             }
             //fwrite($fp, $linea);
             fclose($fp);
-
+    
             echo "\tCoche añadido correctamente.\n";
             return true;
         }
@@ -90,10 +82,13 @@ include 'ICocheDAO.php';
         public function obtenerCoche($matricula) {
             // Abrir el archivo en modo de lectura
             $fp = fopen($this->ficheroCoche, 'r');
+        
             if (!$fp) {
                 echo "No se pudo abrir el archivo para leer.";
                 return;
             }
+        
+            $encontrado = false;
         
             // Leer el archivo línea por línea
             while (($linea = fgets($fp)) !== false) {
@@ -103,7 +98,6 @@ include 'ICocheDAO.php';
                 // Si el primer elemento coincide con el ID buscado
                 if (trim($separar[0]) == $matricula) {
                     // Mostrar el vehículo encontrado
-                    /*
                     printf(
                         "%-10s | %-15s | %-10s | %-10s | %-15s",
                         $separar[0],
@@ -111,114 +105,71 @@ include 'ICocheDAO.php';
                         $separar[2],
                         $separar[3],
                         $separar[4]
-                    ); 
-                    */
-                    //echo "Encontrado";
-                    fclose($fp);
-                    return $linea;
+                    );
+                    $encontrado = true;
+                    break;
                 }                
             }
         
             // Cerrar el archivo después de leerlo
             fclose($fp);
-            return null;
+        
+            // Si no se encontró el vehículo
+            if (!$encontrado) {
+                echo "Vehículo con ID '$idBuscado' no encontrado.\n";
+            }
         }   
                 
         // Borrado de coche 
         public function eliminar($matricula) {
-            // Verificar si el coche existe
-            if ($this->obtenerCoche($matricula) == null) {
-                echo "--Coche no existe.\n";
-                return false;
-            }
-        
-            // Abrir el archivo en modo lectura/escritura
-            $fp = fopen($this->ficheroCoche, 'r+');
-            if (!$fp) {
-                echo "No se pudo abrir el archivo.\n";
-                return false;
-            }
-        
-            $lineaEncontrada = false; // Para saber si se encontró la matrícula
-        
-            // Calcular la cantidad de líneas en el archivo
-            while (($linea = fgets($fp)) !== false) {
-                $posActual = ftell($fp) - 90; // Retrocedemos a la posición inicial de la línea
-                $matriculaArchivo = trim(substr($linea, 0, strlen($matricula))); // Obtener matrícula de la línea
-        
-                if ($matriculaArchivo === $matricula) {
-                    $lineaEncontrada = true;
-        
-                    // Mover el puntero al inicio de la línea encontrada
-                    fseek($fp, -94, SEEK_CUR);
-        
-                    // Sobrescribir la línea con espacios para "eliminar" lógicamente
-                    fputs($fp, "-1      ");
-        
-                    echo "--Coche eliminado correctamente.\n";
-                    break;
-                }
-            }
-        
-            // Cerrar el archivo
-            fclose($fp);
-        
-            if (!$lineaEncontrada) {
-                echo "--No se encontró el coche con la matrícula indicada.\n";
-                return false;
-            }
-            return true;
-        }
-
-        public function eliminar2($matricula) {
-            // Verificar si el coche existe
-            if ($this->obtenerCoche($matricula) == null) {
-                echo "--Coche no existe.\n";
-                return false;
-            }
-        
-            // Abrir el archivo en modo lectura/escritura
-            $fp = fopen($this->ficheroCoche, 'r+');
+            // Abrir el archivo original en modo lectura
+            $fp = fopen($this->ficheroCoche, 'r');
             if (!$fp) {
                 echo "No se pudo abrir el archivo para leer.\n";
                 return false;
             }
         
-            // Variables de control
-            $tamanioLinea = 0;  // Longitud de la línea encontrada
-            $posicionLinea = -1;  // Posición de la línea que contiene la matrícula
-        
-            // Buscar la línea con la matrícula especificada
+            // Leer todas las líneas del archivo
+            $lineas = [];
             while (($linea = fgets($fp)) !== false) {
-                $tamanioLinea = strlen($linea); // Longitud de la línea actual
-                $separar = explode("#", $linea);
+                $lineas[] = $linea;
+            }
+            fclose($fp);
         
-                // Comparar la matrícula (suponiendo que es el primer campo)
-                if (trim($separar[0]) === $matricula) {
-                    // Obtener la posición de la línea actual
-                    $posicionLinea = ftell($fp) - $tamanioLinea;
-                    break;
+            // Buscar y eliminar la línea correspondiente a la matrícula
+            $encontrado = false;
+            $lineasActualizadas = [];
+            foreach ($lineas as $linea) {
+                // Cada línea tiene campos de tamaño fijo: separar con substr
+                $matriculaLinea = trim(substr($linea, 0, 10)); // Extraer matrícula (10 caracteres)
+                
+                if ($matriculaLinea === $matricula) {
+                    $encontrado = true; // Marcar como encontrado
+                    continue; // Omitir esta línea
                 }
+                $lineasActualizadas[] = $linea; // Mantener las demás líneas
             }
         
-            // Si no se encontró la matrícula
-            if ($posicionLinea === -1) {
-                echo "--No se encontró el coche con la matrícula indicada.\n";
-                fclose($fp);
+            if (!$encontrado) {
+                echo "--No se encontró un coche con la matrícula: $matricula\n";
                 return false;
             }
         
-            // Mover el puntero al inicio de la línea encontrada
-            fseek($fp, $posicionLinea, SEEK_SET);
+            // Escribir de nuevo las líneas actualizadas en el archivo
+            $fp = fopen($this->ficheroCoche, 'w');
+            if (!$fp) {
+                echo "--No se pudo abrir el archivo para escribir.";
+                return false;
+            }
         
-            // Sobrescribir la línea con espacios o marcadores (eliminar lógicamente)
-            fwrite($fp, str_pad("", $tamanioLinea - 1)); // El -1 es para el salto de línea
+            foreach ($lineasActualizadas as $linea) {
+                fputs($fp, $linea);
+            }
+            fclose($fp);
         
             echo "--Coche eliminado correctamente.\n";
-        
-            fclose($fp);
             return true;
-        }        
+        }
         
         // Modificación de Coche
         public function actualizar($matricula, Coche $cocheNuevo) {
@@ -297,7 +248,7 @@ include 'ICocheDAO.php';
                 // Validar que tenga al menos 5 elementos antes de imprimir
                 
                     printf(
-                        "%-10s | %-30s | %-30s | %-10s | %-10s",
+                        "%-10s | %-15s | %-10s | %-10s | %-4s",
                         $separar[0],
                         $separar[1],
                         $separar[2],
