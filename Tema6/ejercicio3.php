@@ -185,30 +185,29 @@ include 'ICocheDAO.php';
             $lineaEncontrada = false;
             //localizamos el coche con la matricula
             while (($linea = fgets($fp)) !== false) {
-                $matriculaCoche = trim(substr($linea, 0, strlen($matricula)));
+                $matriculaCoche = trim(substr($linea, 0, 10));
 
                 if ($matriculaCoche === $matricula) {
                     $lineaEncontrada = true;
         
-                    // Mover el puntero al marca.
-                    fseek($fp, -85, SEEK_CUR);
-                    // Sobrescribir el contenido por el nuevo marca.
-                    fputs($fp, substr($cocheNuevo->marca, 0, 10));
+                    // Mover el puntero al inicio de la línea actual
+                    fseek($fp, -96, SEEK_CUR);
 
-                    // Mover el puntero al marca.
-                    fseek($fp, -54, SEEK_CUR);
-                    // Sobrescribir el contenido por el nuevo marca.
-                    fputs($fp, $cocheNuevo->modelo);
+                    // Campo: Marca (Inicio en posición 10, longitud 30)
+                    fseek($fp, 11, SEEK_CUR); // Mover al inicio del campo "marca"
+                    fputs($fp, str_pad(substr($cocheNuevo->marca, 0, 30), 30, " ", STR_PAD_RIGHT));
 
-                    // Mover el puntero al marca.
-                    fseek($fp, -23, SEEK_CUR);
-                    // Sobrescribir el contenido por el nuevo marca.
-                    fputs($fp, $cocheNuevo->potencia);
+                    // Campo: Modelo (Inicio en posición 40, longitud 30)
+                    fseek($fp, 42 - (11 + 30), SEEK_CUR); // Mover al inicio del campo "modelo"
+                    fputs($fp, str_pad(substr($cocheNuevo->modelo, 0, 30), 30, " ", STR_PAD_RIGHT));
 
-                    // Mover el puntero al marca.
-                    fseek($fp, -12, SEEK_CUR);
-                    // Sobrescribir el contenido por el nuevo marca.
-                    fputs($fp, $cocheNuevo->velocidadMax);
+                    // Campo: Potencia (Inicio en posición 70, longitud 10)
+                    fseek($fp, 73 - (42 + 30), SEEK_CUR); // Mover al inicio del campo "potencia"
+                    fputs($fp, str_pad(substr($cocheNuevo->potencia, 0, 10), 10, " ", STR_PAD_RIGHT));
+
+                    // Campo: Velocidad Máxima (Inicio en posición 80, longitud 10)
+                    fseek($fp, 84 - (73 + 10), SEEK_CUR); // Mover al inicio del campo "velocidadMax"
+                    fputs($fp, str_pad(substr($cocheNuevo->velocidadMax, 0, 10), 10, " ", STR_PAD_RIGHT));
 
                     break;
                 }
