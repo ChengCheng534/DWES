@@ -2,6 +2,7 @@
     $fichero = 'tasklist.txt';
     $comando = 'tasklist';
     $proceso = "chrome.exe";
+    $ficheroLog = 'ejecuciones.log';
 
     function AlmacenarProceso($fichero, $comando){
         // Abrir el archivo en modo escritura.
@@ -41,8 +42,10 @@
     } 
 
     function localizar($fichero, $nomProceso){
+        $arrayPid = [];
+
         // Abrir el archivo en modo de lectura
-        $fp = fopen($fichero, 'r');
+        $fp = fopen($fichero, 'r+');
         if (!$fp) {
             echo "No se pudo abrir el archivo para leer.";
             return;
@@ -51,12 +54,13 @@
         // Leer el archivo línea por línea
         while (!feof($fp)) {
             $linea = fgets($fp); // leo una linea
-            $indice = strpos($linea, "hrome.exe");
-            $arrayPid = [];
-            if ($indice != false) {
+            $indice = strpos($linea, "chrome.exe");
+            
+            if ($indice !== false) {
                 $separar = explode(" ", $linea);
 
                 $PID = substr($linea, 29, 6);
+
                 $arrayPid[] = $PID;
             }
         }
@@ -66,25 +70,60 @@
     }
 
     //taskkill /F /pid 323  /pid 3333 /pid 654344
-    function matar($array){
-        $matar = "taskkill /F";
+    function matar($array, $ficheroLog){
+        $pidsEliminados = [];
+
+        if (empty($array)) {
+            echo "No hay procesos para finalizar.\n";
+            return;
+        }
 
         foreach ($array as $pid) {
-            while($pid == true){
-                exec(escapeshellcmd($matar), $output, $status);
+            $comando = "taskkill /F /PID $pid";
+            exec(escapeshellcmd($comando), $output, $status);
+    
+            if ($status == 0) {
+                echo "Proceso con PID $pid finalizado con éxito.\n";
+                $pidsEliminados[] = $pid;
+            } else {
+                echo "Error: No se pudo finalizar el proceso con PID $pid.\n";
             }
         }
- 
-        
+
+        // Registrar en el archivo de log.
+        registrarEnLog($ficheroLog, count($pidsEliminados), $pidsEliminados);
+    }
+
+    function registrarEnLog($ficheroLog, $numProcesos, $pidsEliminados) {
+        $fechaHora = date("Y-m-d H:i:s");
+        $usuario = getenv('USERNAME'); // Obtener el usuario del sistema en Windows.
+        $listaPids = implode(", ", $pidsEliminados);
+    
+        // Crear la línea para el log.
+        $lineaLog = "$fechaHora#$usuario#$numProcesos#$listaPids\n";
+    
+        // Abrir el archivo en modo de escritura o crearlo si no existe.
+        $fp = fopen($ficheroLog, 'a');
+        if (!$fp) {
+            echo "Error: No se pudo abrir o crear el archivo de log.\n";
+            return;
+        }
+    
+        // Escribir la línea en el archivo.
+        fwrite($fp, $lineaLog);
+        fclose($fp);
+    
+        echo "Registro añadido al archivo de log: $ficheroLog\n";
     }
     
     //Almacenar el proceso en el fichero.
-    //AlmacenarProceso($fichero, $comando);
+    //
+    AlmacenarProceso($fichero, $comando);
 
     //Localizar los procesos del fichero.
-    //echo localizar($fichero, $proceso);
+    //print_r(localizar($fichero, $proceso));
 
     //Matar procesos.
-    echo matar(localizar($fichero, $proceso));
+    //matar(localizar($fichero, $proceso), $ficheroLog);
 
 ?>
