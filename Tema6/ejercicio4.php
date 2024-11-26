@@ -1,98 +1,90 @@
 <?php
-// Archivo donde se almacenará el contenido del comando tasklist
-$fichero = 'tasklist.txt';
-// Comando de terminal para obtener los procesos
-$comando = 'tasklist';
+    $fichero = 'tasklist.txt';
+    $comando = 'tasklist';
+    $proceso = "chrome.exe";
 
-while (true) {
-    // Ejecutar el comando y capturar la salida
-    $output = [];
-    $status = 0;
-    exec(escapeshellcmd($comando), $output, $status);
+    function AlmacenarProceso($fichero, $comando){
+        // Abrir el archivo en modo escritura.
+        $fp = fopen($fichero, 'w');
+        if (!$fp) {
+            echo ("Error: No se puede abrir el archivo '$fichero'.");
+        }   
 
-    if ($status !== 0) {
-        echo "Error al ejecutar el comando tasklist.\n";
-        break;
-    }
-
-    // Guardar la salida en el archivo
-    file_put_contents($fichero, implode(PHP_EOL, $output) . "\n--- Nueva ejecución: " . date('Y-m-d H:i:s') . "---\n");
-
-    // Esperar 10 segundos
-    sleep(10);
-}
-
-
-/*<-------------------------------------------------------------------------------------->*/
-$tasklistFile = 'tasklist.txt';
-$logFile = 'ejecuciones.log';
-$processName = 'chrome.exe';
-
-// Leer el archivo de procesos
-$tasklistContent = file_get_contents($tasklistFile);
-$lines = explode("\n", $tasklistContent);
-
-$pids = [];
-foreach ($lines as $line) {
-    if (strpos($line, $processName) !== false) {
-        // Extraer el PID de la línea (segunda columna)
-        $columns = preg_split('/\s+/', $line);
-        if (isset($columns[1]) && is_numeric($columns[1])) {
-            $pids[] = $columns[1];
+        // Bucle infinito para ejecutar el comando cada 10 segundos.
+        while (true) {
+            // Ejecutar el comando "tasklist".
+            exec(escapeshellcmd($comando), $output, $status);
+        
+            if ($status) {
+                echo "Error: No se pudo ejecutar el comando.";
+                break;
+            }
+        
+            // Guardar la salida en el archivo y mostrar en el navegador.
+            foreach ($output as $linea) {
+                fwrite($fp, $linea . PHP_EOL); // Guardar cada línea en el archivo.
+            }
+        
+            // Mostrar en el navegador.
+            echo "<pre>";
+            foreach ($output as $linea) {
+                echo htmlspecialchars($linea) . "\n";
+            }
+            echo "</pre>";
+        
+            // Esperar 10 segundos antes de la próxima ejecución.
+            sleep(10);
         }
-    }
-}
+        
+        // Cerrar el archivo.
+        fclose($fp);
+    } 
 
-// Matar procesos y registrar los resultados
-if (!empty($pids)) {
-    $numProcesses = count($pids);
-    $dateTime = date('Y-m-d H:i:s');
-    $user = getenv('USERNAME');
-    $pidsList = implode(',', $pids);
-
-    foreach ($pids as $pid) {
-        $status = 0;
-        exec(escapeshellcmd("taskkill /PID $pid /F"), $output, $status);
-        if ($status !== 0) {
-            echo "Error al matar el proceso con PID $pid.\n";
+    function localizar($fichero, $nomProceso){
+        // Abrir el archivo en modo de lectura
+        $fp = fopen($fichero, 'r');
+        if (!$fp) {
+            echo "No se pudo abrir el archivo para leer.";
+            return;
         }
-    }
 
-    // Registrar en ejecuciones.log
-    $logEntry = "$dateTime#$user#$numProcesses#$pidsList\n";
-    file_put_contents($logFile, $logEntry, FILE_APPEND);
-}
+        // Leer el archivo línea por línea
+        while (!feof($fp)) {
+            $linea = fgets($fp); // leo una linea
+            $indice = strpos($linea, "hrome.exe");
+            $arrayPid = [];
+            if ($indice != false) {
+                $separar = explode(" ", $linea);
 
-/*<-------------------------------------------------------------------------------------->*/
-$logFile = 'ejecuciones.log';
-
-// Solicitar al usuario el nombre y la fecha
-echo "Introduce el nombre del usuario: ";
-$user = trim(fgets(STDIN));
-
-echo "Introduce la fecha (YYYY-MM-DD): ";
-$date = trim(fgets(STDIN));
-
-$totalProcesses = 0;
-
-// Leer el archivo de log
-$logContent = file_get_contents($logFile);
-$lines = explode("\n", $logContent);
-
-foreach ($lines as $line) {
-    if (strpos($line, "$date#$user#") === 0) {
-        $parts = explode('#', $line);
-        if (isset($parts[2])) {
-            $totalProcesses += (int)$parts[2];
+                $PID = substr($linea, 29, 6);
+                $arrayPid[] = $PID;
+            }
         }
+        // Cerrar el archivo después de leerlo
+        fclose($fp);
+        return $arrayPid;
     }
-}
 
-echo "Total de procesos eliminados por $user en $date: $totalProcesses\n";
+    //taskkill /F /pid 323  /pid 3333 /pid 654344
+    function matar($array){
+        $matar = "taskkill /F";
 
-/*<-------------------------------------------------------------------------------------->*/
-// Generar el mensaje de alerta
-$message = "Total de procesos eliminados: $totalProcesses";
-exec(escapeshellcmd("msg $user /TIME:10 $message"));
+        foreach ($array as $pid) {
+            while($pid == true){
+                exec(escapeshellcmd($matar), $output, $status);
+            }
+        }
+ 
+        
+    }
+    
+    //Almacenar el proceso en el fichero.
+    //AlmacenarProceso($fichero, $comando);
+
+    //Localizar los procesos del fichero.
+    //echo localizar($fichero, $proceso);
+
+    //Matar procesos.
+    echo matar(localizar($fichero, $proceso));
 
 ?>
