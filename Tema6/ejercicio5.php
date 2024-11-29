@@ -1,28 +1,79 @@
 <?php
-    $libro = "QuijoteDeLaMancha.txt";
-    $stopWorks = "stop_words.txt";
-    $num;
+// Array de calificaciones de los estudiantes
+$calificaciones = [
+    'Cesar' => ['DWES' => 8, 'DWEC' => 9, 'DAW' => 7],
+    'Javier' => ['DWES' => 6, 'DWEC' => 5, 'DAW' => 6],
+    'Hugo' => ['DWES' => 7, 'DWEC' => 6, 'DAW' => 8],
+    'Cheng' => ['DWES' => 9, 'DWEC' => 9, 'DAW' => 9]
+];
 
-    function dameLosQueMasAparecen($num, $libro){
+// 1. Función promedioPorMateria
+function promedioPorMateria($calificaciones) {
+    $promedios = [];
+    $materias = array_keys($calificaciones['Cesar']);
 
-        // Abrir el archivo en modo de lectura
-        $fp = fopen($libro, 'r+');
-        if (!$fp) {
-            echo("No se pudo abrir el archivo para leer.");
+    // Iteramos sobre cada materia
+    foreach ($materias as $materia) {
+        $suma = 0;
+        $cantidad = 0;
+
+        // Iteramos sobre cada estudiante para obtener su calificación en la materia actual
+        foreach ($calificaciones as $estudiante => $notasEstudiante) {
+            $suma += $notasEstudiante[$materia];
+            $cantidad++;
         }
 
-        // Leer y mostrar el archivo línea por línea
-        while (!feof($fp)) {
-            $linea = fgets($fp); // leer linea por linea el fichero
-            $listasPalabra[$line]= explode(" ",$linea); 
-            $palabra = [$listasPalabra];
-            //$longitud = count($listasPalabra);
-
-            print_r($palabra);
-        }
-        return null;
+        // Calculamos el promedio
+        $promedios[$materia] = $suma / $cantidad;
     }
 
-    //echo dameLosQueMasAparecen($num, $libro);
-    print_r(dameLosQueMasAparecen($num, $libro));
+    return $promedios;
+}
+
+function promedioPorEstudiante($calificaciones) {
+    $promedios = [];
+
+    foreach ($calificaciones as $alumno => $notasEstudiante) {
+        $suma = array_sum($notasEstudiante);
+        $numMaterias = count($notasEstudiante);
+
+
+        $promedios[$alumno] = $suma/$numMaterias;
+    }
+
+    //$redondear = number_format($promedios, 2);
+    return $promedios;
+}
+
+function mejorEstudiantePorMateria($calificaciones){
+    $materias = array_keys($calificaciones['Cesar']);
+    $alumno = [];
+
+    foreach ($materias as $materia) {
+        $mejorEstudiante = 0;
+        $mejorNota = -1;
+
+        foreach ($calificaciones as $estudiante => $notasEstudiante) {
+            if ($notasEstudiante[$materia] > $mejorNota) {
+                $mejorNota = $notasEstudiante[$materia];
+                $mejorEstudiante = $estudiante;
+            }
+        }
+        $alumno[$materia] = $mejorEstudiante;
+        print_r($alumno);
+    }
+    return;
+}
+
+
+echo "Promedio por materia:\n";
+print_r(promedioPorMateria($calificaciones));
+
+
+echo "Promedio de alumno:\n";
+print_r(promedioPorEstudiante($calificaciones));
+
+echo "Mejor alumno de cada Materia:\n";
+print_r(mejorEstudiantePorMateria($calificaciones));
+
 ?>
