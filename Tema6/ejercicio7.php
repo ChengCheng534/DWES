@@ -9,31 +9,7 @@ include "Interfaz.php";
         }
 
         public function formatearFecha($date){
-            $men = [
-                'Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo',
-                'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre',
-                'Noviembre', 'Diciembre'
-            ];
-        
-            $mcz = [
-                'Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo',
-                'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre',
-                'Noviembre', 'Diciembre'
-            ];
-        
-            $date = str_replace($men, $mcz, $date);
-        
-            $den = [
-                'Lunes', 'Martes', 'Miércoles', 'Jueves',
-                'Viernes', 'Sábado', 'Domingo'
-            ];
-        
-            $dcz = [
-                'Lunes', 'Martes', 'Miércoles', 'Jueves',
-                'Viernes', 'Sábado', 'Domingo'
-            ];
-        
-            return str_replace($den, $dcz, $date);
+            
         }
         public function compararFechas($fecha1, $fecha2){}
         public function calcularDiferenciaFechas($fecha1, $fecha2){}
@@ -48,9 +24,6 @@ include "Interfaz.php";
     $fechaHoy->obtenerFechaHoraActual();
 
     $fechaHoy->formatearFecha('Viernes, 13 de septiembre');
-
-
-
-
-
+    
+    
 ?>
