@@ -1,0 +1,7 @@
+$inventario = [
+'producto_1' => ['nombre' => 'Camiseta', 'precio' => 20, 'cantidad' => 50, 'categoria' => 'ropa'],
+'producto_2' => ['nombre' => 'Pantalones', 'precio' => 40, 'cantidad' => 30, 'categoria' => 'ropa'],
+'producto_3' => ['nombre' => 'Zapatos', 'precio' => 60, 'cantidad' => 20, 'categoria' => 'calzado'],
+'producto_4' => ['nombre' => 'Gorra', 'precio' => 15, 'cantidad' => 100, 'categoria' => 'accesorios'],
+'producto_5' => ['nombre' => 'Bolso', 'precio' => 50, 'cantidad' => 10, 'categoria' => 'accesorios']
+];

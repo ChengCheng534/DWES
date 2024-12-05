@@ -1,0 +1,14 @@
+1. Descarga los ficheros ejer1.txt, pedido.txt y piezas.csv de la 
+   página "Trabajos" del site.
+   (Estos ficheros los necesitarás para los ejercicios del examen)
+
+2. En cada ejercicio debes entregar una captura de pantalla que justifique
+   el funcionamiento del programa realizado (la descripción de la pantalla
+   aparece en el enunciado).
+
+3. Cada ejercicio debe estar en un fichero (por tanto habrá sólo tres
+   programas php parar entregar).
+
+4. Al finalizar el examen, comprime las paginas php realizadas y pon tu nombre
+   al zip y levanta la mano para que pase el profesor a recoger el fichero zip.
+  
