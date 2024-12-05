@@ -1,0 +1,352 @@
+Programación Básica:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+
+----Bucle:
+
+for ($i = 0; $i < 5; $i++) {
+
+    echo "Número: $i\n";
+
+}
+
+
+----Bifurcación:
+
+if ($edad >= 18) {
+
+    echo "Eres mayor de edad.";
+
+} else {
+
+    echo "Eres menor de edad.";
+
+}
+
+
+Funciones:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+
+----Argumentos por referencia:
+
+function incrementar(&$numero) {
+
+    $numero++;
+
+}
+
+$valor = 5;
+
+incrementar($valor);
+
+echo $valor; // Salida: 6
+
+
+----Argumentos opcionales:
+
+function saludo($nombre = "Invitado") {
+
+    echo "Hola, $nombre!";
+
+}
+
+saludo(); // Salida: Hola, Invitado!
+
+
+----Argumentos múltiples:
+
+function suma($a, $b) {
+
+    return $a + $b;
+
+}
+
+echo suma(3, 4); // Salida: 7
+
+
+----Recursividad:
+
+function sumaArray($array) {
+    // Condición base: si el array está vacío, la suma es 0
+    if (empty($array)) {
+        return 0;
+    }
+    // Sumar el primer elemento y llamar recursivamente con el resto del array
+    return array_shift($array) + sumaArray($array);
+}
+
+// Prueba de la función
+$numeros = [1, 2, 3, 4, 5];
+echo "La suma del array es: " . sumaArray($numeros); // Salida: La suma del array es: 15
+
+
+/////////////////////////////////////
+function fibonacci($n) {
+    // Condiciones base: fibonacci(0) = 0, fibonacci(1) = 1
+    if ($n == 0) {
+        return 0;
+    }
+    if ($n == 1) {
+        return 1;
+    }
+    // Llamada recursiva: suma de los dos números anteriores
+    return fibonacci($n - 1) + fibonacci($n - 2);
+}
+
+// Prueba de la función
+for ($i = 0; $i < 10; $i++) {
+    echo "Fibonacci($i): " . fibonacci($i) . "\n";
+}
+// Salida:
+// Fibonacci(0): 0
+// Fibonacci(1): 1
+// Fibonacci(2): 1
+// Fibonacci(3): 2
+// Fibonacci(4): 3
+// Fibonacci(5): 5
+// Fibonacci(6): 8
+// Fibonacci(7): 13
+// Fibonacci(8): 21
+// Fibonacci(9): 34
+
+
+
+POO (Programación Orientada a Objetos)::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+
+
+----Clases, Propiedades y Métodos:
+
+class Persona {
+
+    public $nombre;
+
+    public function saludar() {
+
+        return "Hola, mi nombre es $this->nombre";
+
+    }
+
+}
+
+$persona = new Persona();
+
+$persona->nombre = "Juan";
+
+echo $persona->saludar(); // Salida: Hola, mi nombre es Juan
+
+
+---- Constructor/Destructor:
+
+class Auto {
+
+    public function __construct() {
+
+        echo "El auto ha sido creado.\n";
+
+    }
+
+    public function __destruct() {
+
+        echo "El auto ha sido destruido.\n";
+
+    }
+
+    public function __toString(){
+        return $this->estado;
+    }
+}
+
+----Getter y Setter:
+
+class Auto {
+
+    // Métodos mágicos para obtener y establecer el valor de la palabra
+
+    public function __get($propiedad) {
+        if (property_exists($this, $propiedad)) {
+            echo $this->$propiedad;
+        }
+    }
+
+    public function __set($propiedad, $valor) {
+        if (property_exists($this, $propiedad)) {
+            $this->$propiedad = $valor;
+        }
+    }
+}
+
+
+$miAuto = new Auto();
+
+
+----Herencia:
+
+class Animal {
+
+    public function hacerSonido() {
+
+        echo "Sonido genérico";
+
+    }
+
+}
+
+class Perro extends Animal {
+
+    public function hacerSonido() {
+
+        echo "Guau!";
+
+    }
+
+}
+
+$perro = new Perro();
+
+$perro->hacerSonido(); // Salida: Guau!
+
+
+
+----Interfaces:
+
+interface Transporte {
+
+    public function mover();
+
+}
+
+class Bicicleta implements Transporte {
+
+    public function mover() {
+
+        echo "Pedaleando la bicicleta.";
+
+    }
+
+}
+
+$bici = new Bicicleta();
+
+$bici->mover(); // Salida: Pedaleando la bicicleta.
+
+
+Namespaces::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+
+namespace Vehiculos;
+
+//////////////////////////
+class Carro {
+    public function conducir() {
+        echo "Conduciendo un carro.";
+    }
+}
+
+//////////////////////////
+namespace Vehiculos;
+
+class Carro {
+    public function conducir() {
+        echo "Conduciendo un carro.";
+    }
+}
+
+////////////////////////////
+<?php
+require_once 'Vehiculos/Carro.php';
+require_once 'Transporte/Carro.php';
+
+use Vehiculos\Carro as CarroVehiculo;
+use Transporte\Carro as CarroTransporte;
+
+// Usar la clase del namespace Vehiculos
+$carro1 = new CarroVehiculo();
+$carro1->conducir(); // Salida: Conduciendo un carro.
+
+// Usar la clase del namespace Transporte
+$carro2 = new CarroTransporte();
+$carro2->manejar(); // Salida: Manejando un vehículo de transporte.
+
+
+Arrays::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+
+----Numéricos:
+
+$numeros = [1, 2, 3, 4, 5];
+
+echo $numeros[2]; // Salida: 3
+
+
+----Asociativos:
+
+$persona = ["nombre" => "Ana", "edad" => 25];
+
+echo $persona["nombre"]; // Salida: Ana
+
+
+
+----Ordenación:
+
+$numeros = [4, 2, 8, 6];
+
+sort($numeros); // ordenar en array
+
+print_r($numeros); // Salida: Array ( [0] => 2 [1] => 4 [2] => 6 [3] => 8 )
+
+
+
+----Funciones de arrays:
+
+$frutas = ["manzana", "naranja", "uva"];
+
+echo count($frutas); // Salida: 3
+
+
+printf/sprintf:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+
+
+
+----Uso básico:
+
+printf("El número es: %d", 42); // Salida: El número es: 42
+
+Placeholder	    Descripción	                        Ejemplo
+%s	            Cadena de texto	                    "Carlos"
+%d	            Número entero	                    42
+%f	            Número de punto flotante	        3.141592
+%0.2f	        Número flotante con 2 decimales	    3.14
+%x	            Números en formato hexadecimal	    255 -> "ff"
+%b	            Números en formato binario	        10 -> "1010"
+%c	            Caracter ASCII	                    65 -> "A"
+
+----Uso con sprintf:
+
+$texto = sprintf("Hola, %s!", "Mundo");
+
+echo $texto; // Salida: Hola, Mundo!
+
+
+Ficheros:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+
+----Lectura y escritura de texto:
+
+file_put_contents("archivo.txt", "Hola Mundo");
+
+echo file_get_contents("archivo.txt"); // Salida: Hola Mundo
+
+
+----Manejo de JSON:
+
+$datos = ["nombre" => "Ana", "edad" => 25];
+
+$json = json_encode($datos);
+
+echo $json; // Salida: {"nombre":"Ana","edad":25}
+
+
+----Manejo de CSV:
+
+$fila = ["nombre", "edad"];
+
+$archivo = fopen("archivo.csv", "w");
+
+fputcsv($archivo, $fila);
+
+fclose($archivo);
+
