@@ -218,14 +218,14 @@ while ($option != 7) {
                 switch ($subOption) {
                     case 1:
                         $dir = 'mensaje/';
-        
+
                         if (is_dir($dir)) {
                             $index = 1;
                             $files = scandir($dir); 
                             $archivosDisponibles = [];
         
+                            echo "Listas de adjuntos:\n";
                             foreach ($files as $file) {
-                                echo "Listas de adjuntos:\n";
                                 if ($file != '.' && $file != '..') {
                                     echo ($index) . ") " . $file . "\n\n"; 
                                     $archivosDisponibles[$index - 1] = $file; 
@@ -280,7 +280,7 @@ while ($option != 7) {
                     $mail->SMTPSecure = PHPMailer::ENCRYPTION_SMTPS;
                     $mail->Port = 465;
 
-                    $mail->setFrom('Alexandrisman18@gmail.com', 'Mailer');
+                    $mail->setFrom('yushen740@gmail.com', 'Mailer');
                     
                     foreach ($mensaje->destinatario as $dest) {
                         $mail->addAddress($dest);
