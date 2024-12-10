@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ejercicio</title>
+    <style>
+        body{
+            display: flex;
+            justify-content: center;
+        }
+        form{
+            border:1px solid black;
+            background-color: antiquewhite;
+        }
+    </style>
+</head>
+<body>
+    <form action="ejercicio1.php" method="GET">
+        <caption>Formulario de datos:</caption><br>
+        <label for="email">Email:</label>
+        <input id="email" type="text" name="txtemail" placeholder="Introduce el email">
+
+        <label for="edad">Edad:</label>
+        <input id="edad" type="number" name="txtedad" placeholder="Introduce la edad">
+        <br>
+        <input type="submit" value="Enviar">
+    </form>
+</body>
+</html>
