@@ -276,7 +276,7 @@ while ($option != 7) {
                     $mail->Host = 'smtp.gmail.com';
                     $mail->SMTPAuth = true;
                     $mail->Username = 'yushen740@gmail.com';
-                    $mail->Password = 'vols cpks etoz svnz';
+                    $mail->Password = 'wabx vbpu zfzy afhz';
                     $mail->SMTPSecure = PHPMailer::ENCRYPTION_SMTPS;
                     $mail->Port = 465;
 
