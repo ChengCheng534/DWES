@@ -7,12 +7,13 @@
 </head>
 <body>
     <form action="ejercicio2.php" method="POST">
-        <label for="num1">Número:</label>
-        <input id="numero1" type="text" name="txtnum1" placeholder="Introduce el primer número">
+        <label for="num1">Primer número:</label>
+        <input id="numero1" type="number" name="txtnum1" placeholder="Introduce el primer número">
         <br>
 
         <label for="operaciones">Operaciones: </label>
         <select name="operacion" id="operacion">
+            <option value="vacio"></option>
             <option value="suma">Sumar</option>
             <option value="resta">Restar</option>
             <option value="multiplicacion">Multiplicar</option>
@@ -20,13 +21,11 @@
         </select>
         <br>
 
-        <label for="num2">Número:</label>
-        <input id="numero2" type="text" name="txtnum2" placeholder="Introduce el segundo número">
+        <label for="num2">Segundo número:</label>
+        <input id="numero2" type="number" name="txtnum2" placeholder="Introduce el segundo número">
         <br>
 
         <input type="submit" value="Calcular">
-
-
     </form>
 </body>
 </html>
