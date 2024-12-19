@@ -74,9 +74,7 @@ function test_input($data) {
   <input type="radio" name="gender" <?php if (isset($gender) && $gender=="other") echo "checked";?> value="other">Other  
   <span class="error">* <?php echo $operErr;?></span>
   <br><br>
-
-
-
+  
   <input type="submit" name="submit" value="Submit">  
 </form>
 
