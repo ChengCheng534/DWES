@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gestión de Vehículos</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            display: flex;
+            flex-direction: column;
+            height: 100vh;
+            position: relative;
+        }
+        header {
+            background-color: #007BFF;
+            color: white;
+            padding: 30px 20px;
+            text-align: center;
+            z-index: 10;
+            position: relative;
+        }
+        nav {
+            background-color: #333;
+            color: white;
+            position: absolute;
+            top: 90px;
+            left: 0;
+            width: 30%;
+            height: calc(100% - 90px);
+            padding: 30px;
+        }
+        nav a {
+            color: white;
+            text-decoration: none;
+            padding: 15px;
+            margin: 10px 0;
+            background-color: #444;
+            border-radius: 8px;
+            width: 100%;
+            display: block;
+            text-align: center;
+        }
+        nav a:hover {
+            background-color: #555;
+        }
+        .main-content {
+            width: 70%;
+            height: calc(100% - 80px);
+            position: absolute;
+            top: 80px;
+            left: 30%;
+            padding: 50px;
+            overflow-y: auto;
+            display: flex;
+            justify-content: center;
+        }
+        .content {
+            display: none;
+        }
+        .content.active {
+            display: block;
+        }
+    </style>
+    <script>
+        function showForm(formId) {
+            // Ocultar todas las secciones de contenido
+            document.querySelectorAll('.content').forEach(section => {
+                section.classList.remove('active');
+            });
+
+            // Mostrar el formulario seleccionado
+            document.getElementById(formId).classList.add('active');
+        }
+    </script>
+</head>
+<body>
+    <header>
+        <h1>Gestión de Vehículos</h1>
+    </header>
+    <nav>
+        <a href="#" onclick="showForm('alta')">Dar Alta</a>
+        <a href="#" onclick="showForm('baja')">Dar Baja</a>
+        <a href="#" onclick="showForm('modificacion')">Modificación</a>
+        <a href="#" onclick="showForm('consulta')">Consulta por Matrícula</a>
+        <a href="#" onclick="showForm('listado')">Listado de Vehículos</a>
+    </nav>
+    <div class="main-content">
+        <div class="content" id="alta">
+            <h2>Alta de Vehículo</h2>
+            <form>
+                <label for="matricula">Matrícula:</label><br>
+                <input type="text" id="matricula" name="matricula" required><br><br>
+
+                <label for="marca">Marca:</label><br>
+                <input type="text" id="marca" name="marca" required><br><br>
+
+                <label for="modelo">Modelo:</label><br>
+                <input type="text" id="modelo" name="modelo" required><br><br>
+
+                <label for="potencia">Potencia:</label><br>
+                <input type="number" id="potencia" name="potencia" required><br><br>
+
+                <label for="velocidad">Velocidad Máxima:</label><br>
+                <input type="number" id="velocidad" name="velocidad" required><br><br>
+
+                <label for="archivo">Selecciona un archivo:</label><br>
+                <input type="file" id="archivo" name="archivo" required><br><br>
+
+                <button type="submit">Registrar Vehículo</button>
+            </form>
+        </div>
+        <div class="content" id="baja">
+            <h2>Baja de Vehículo</h2>
+            <p>Aquí puedes dar de baja un vehículo existente.</p>
+        </div>
+        <div class="content" id="modificacion">
+            <h2>Modificación de Datos</h2>
+            <p>Aquí puedes modificar los datos de un vehículo.</p>
+        </div>
+        <div class="content" id="consulta">
+            <h2>Consulta por Matrícula</h2>
+            <p>Aquí puedes buscar información de un vehículo por su matrícula.</p>
+        </div>
+        <div class="content" id="listado">
+            <h2>Listado de Vehículos</h2>
+            <p>Aquí puedes ver un listado de todos los vehículos registrados.</p>
+        </div>
+    </div>
+</body>
+</html>
