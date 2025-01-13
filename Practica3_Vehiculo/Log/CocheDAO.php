@@ -1,4 +1,6 @@
 <?php
+require_once 'ICocheDAO.php';
+
 class CocheDAO implements ICocheDAO {
     private $filePath = 'VehiculoDAO.json';
 
@@ -23,6 +25,10 @@ class CocheDAO implements ICocheDAO {
     // Crear un coche
     public function darAlta(Coche $coche) {
         $coches = $this->leerFichero();
+        if (isset($coches[$coche->matricula])) {
+
+            return;
+        }
         $coches[$coche->matricula] = [
             'marca' => $coche->marca,
             'modelo' => $coche->modelo,
@@ -30,7 +36,6 @@ class CocheDAO implements ICocheDAO {
             'velocidadMaxima' => $coche->velocidadMaxima
         ];
         $this->escribirFichero($coches);
-        echo "Coche con matrícula {$coche->matricula} añadido.\n";
     }
 
     // Obtener un coche por su matrícula

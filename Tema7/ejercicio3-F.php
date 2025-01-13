@@ -80,6 +80,28 @@ function test_input($data) {
 
 <?php
 echo "<h2>Your Input:</h2>";
+if (is_numeric($number1) && is_numeric($number2)) {
+  switch ($operation) {
+      case "suma":
+          $result = $number1 + $number2;
+          break;
+      case "resta":
+          $result = $number1 - $number2;
+          break;
+      case "multiplicacion":
+          $result = $number1 * $number2;
+          break;
+      case "division":
+          if ($number2 != 0) {
+              $result = $number1 / $number2;
+          } else {
+              $result = "Error: Division by zero";
+          }
+          break;
+      default:
+          $result = "Invalid operation";
+  }
+}
 
 ?>
 

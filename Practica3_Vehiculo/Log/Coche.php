@@ -1,13 +1,13 @@
 <?php
-class Vehiculo{
+class Coche{
     private $matricula, $marca, $modelo, $potencia, $velocidadMax, $imagen;
     
-    public function __construct($matricula,$marca, $imagen){
+    public function __construct($matricula, $marca, $modelo, $potencia, $velocidadMax, $imagen){
         $this->matricula = $matricula;
         $this->marca = $marca;
-        $this->modelo = "";
-        $this->potencia = 0;
-        $this->velocidadMax = 0;
+        $this->modelo = $modelo;
+        $this->potencia = $potencia;
+        $this->velocidadMax = $velocidadMax;
         $this->imagen = $imagen;
     }
 
