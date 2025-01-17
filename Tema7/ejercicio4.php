@@ -23,7 +23,7 @@
     $patron7 = "/^\d{2}\s\d{2}\s\d{2}$/";
     $prueba7 = preg_match($patron7, $cadena);
 
-    $patron8 = "/\d{2}\/\d{2}\/\d{4}/";
+    $patron8 = "/^\d{2}\/\d{2}\/\d{4}$/";
     $prueba8 = preg_match($patron8, $cadena);
 
     $patron9 = "/^[\w.-]*@\w*\..{2,3}$/";
