@@ -96,7 +96,7 @@ include 'ICocheDAO.php';
             while (($linea = fgets($fp)) !== false) {
                 // Separar la línea por el delimitador "#"
                 $separar = explode("#", $linea);
-
+                
                 // Si el primer elemento coincide con el ID buscado
                 if (trim($separar[0]) == $matricula) {
                     // Mostrar el vehículo encontrado
