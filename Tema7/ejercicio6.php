@@ -169,6 +169,7 @@ function test_input($data) {
     <span class="error">*<?php echo $passwordErr;?></span>
     <br><br>
 
+    <input type="submit" name="submit" value="Cerrar sesión">
     <input type="submit" name="submit" value="Modificar">  
 </form>
 </body>
