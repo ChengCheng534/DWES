@@ -1,0 +1,17 @@
+create table cliente (
+	cliente_id INT PRIMARY KEY, 
+	documento_identidad CHAR(9) UNIQUE, 
+	nombre VARCHAR(10) NOT NULL, 
+	apellidos VARCHAR(10) NOT NULL, 
+	email VARCHAR(20), telefono INT, 
+	direccion VARCHAR(20), 
+	fecha_nacimiento VARCHAR(15), 
+	fotografia VARCHAR(10));
+
+CREATE TABLE VEHICULO(
+	MATRICULA CHAR(7) UNIQUE PRIMARY KEY, 
+	MARCA VARCHAR(10) NOT NULL, 
+	MODELO VARCHAR(10), 
+	POTENCIA INT, 
+	VELOCIDAD_MAX INT,
+	IMAGEN VARCHAR(10) NOT NULL);
