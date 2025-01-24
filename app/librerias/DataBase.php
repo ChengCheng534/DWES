@@ -1,4 +1,5 @@
 <?php
+    require_once("../config/configurar.php");
     class DataBase{
         private $host = DB_HOST;
         private $usuario = DB_USUARIO;
@@ -10,7 +11,7 @@
         private $error;
 
         public function __construct() {
-            $dsn = 'msql:host=' . $this->host . ';dbname'. $this->nombre_BD;
+            $dsn = 'msql:host=' . $this->host . ';dbname='. $this->nombre_BD;
             $opciones = array(
                 PDO::ATTR_PERSISTENT=>true,
                 PDO::ATTR_ERRMODE=>PDO::ERRMODE_EXCEPTION 
@@ -26,7 +27,7 @@
         }
 
         public function borame(){
-            $query = 'select * from classics';
+            $query = 'select * from usuario';
 
             $stmt = $conn->prepare($sql);
             $stmt->execute();
@@ -34,5 +35,19 @@
             return $usuarios;
         }
 
+        public function insertarTablas($nombre, $apellidos, $fechaNacimiento, $login, $password, $grupo) {
+            $query = "INSERT INTO usuario VALUES(null, '" . $nombre ."', '" .$apellidos."','" .$fechaNacimiento."','" .$login."', '" .$password."', '" .$grupo."')";
+
+            $relsultado = $this->dbh->exec($query);
+        }
+
     }
+
+    $db = new DataBase();
+    $contraseña = '5555';
+    $hash = password_hash($contraseña, PASSWORD_DEFAULT);
+    
+    $db->insertarTablas('JORGES','MARTINEZ GARCIA','1994-11-12','JORGEMAQRTINEZ', $hash, 'USUARIO');
+
+
 ?>

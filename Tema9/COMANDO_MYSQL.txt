@@ -1,3 +1,6 @@
+C:\Program Files\Ampps\mysql\bin>
+mysql -u root -p
+
 create table cliente (
 	cliente_id INT PRIMARY KEY, 
 	documento_identidad CHAR(9) UNIQUE, 
