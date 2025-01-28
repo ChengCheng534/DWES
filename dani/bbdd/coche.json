@@ -1,0 +1,114 @@
+[
+    {
+        "matricula": "1542LVN",
+        "marca": "Bugatti",
+        "modelo": "La Voiture Noire",
+        "potencia": 1500,
+        "velocidadMaxima": 420,
+        "imagen": "uploads\/1542LVN.jpg"
+    },
+    {
+        "matricula": "3028FGT",
+        "marca": "Ferrari",
+        "modelo": "250 GTO",
+        "potencia": 300,
+        "velocidadMaxima": 280,
+        "imagen": "uploads\/3028FGT.jpg"
+    },
+    {
+        "matricula": "1041KCT",
+        "marca": "Koenigsegg",
+        "modelo": "CCXR Trevita",
+        "potencia": 1018,
+        "velocidadMaxima": 410,
+        "imagen": "uploads\/1041KCT.jpg"
+    },
+    {
+        "matricula": "1306LDP",
+        "marca": "Lamborghini",
+        "modelo": "Veneno",
+        "potencia": 750,
+        "velocidadMaxima": 355,
+        "imagen": "uploads\/1306LDP.jpg"
+    },
+    {
+        "matricula": "0903DPM",
+        "marca": "McLaren",
+        "modelo": "2014 P1",
+        "potencia": 916,
+        "velocidadMaxima": 350,
+        "imagen": "uploads\/0903DPM.jpg"
+    },
+    {
+        "matricula": "6225MMM",
+        "marca": "Mercedes-Benz",
+        "modelo": "Maybach",
+        "potencia": 621,
+        "velocidadMaxima": 250,
+        "imagen": "uploads\/6225MMM.jpg"
+    },
+    {
+        "matricula": "7835PZB",
+        "marca": "Pagani",
+        "modelo": "Zonda HP Barchetta",
+        "potencia": 789,
+        "velocidadMaxima": 355,
+        "imagen": "uploads\/7835PZB.jpg"
+    },
+    {
+        "matricula": "8834PSD",
+        "marca": "Porsche",
+        "modelo": "918 Spyder",
+        "potencia": 887,
+        "velocidadMaxima": 340,
+        "imagen": "uploads\/8834PSD.jpg"
+    },
+    {
+        "matricula": "6025RRR",
+        "marca": "Rolls-Royce",
+        "modelo": "La Rose Noire Droptail",
+        "potencia": 600,
+        "velocidadMaxima": 250,
+        "imagen": "uploads\/6025RRR.jpg"
+    },
+    {
+        "matricula": "0000FTR",
+        "marca": "Ferrari",
+        "modelo": "F10",
+        "potencia": 1050,
+        "velocidadMaxima": 370,
+        "imagen": "uploads\/0000FTR.jpg"
+    },
+    {
+        "matricula": "2525VGT",
+        "marca": "Volvo",
+        "modelo": "qfw",
+        "potencia": 125,
+        "velocidadMaxima": 125,
+        "imagen": "uploads\/2525VGT.jpg"
+    },
+    {
+        "matricula": "1234PET",
+        "marca": "Tesla",
+        "modelo": "ffweqfw",
+        "potencia": 500,
+        "velocidadMaxima": 250,
+        "imagen": "uploads\/1234PET.jpg"
+    },
+    {
+        "matricula": "9874CVB",
+        "marca": "Dacia",
+        "modelo": "fwe",
+        "potencia": 700,
+        "velocidadMaxima": 280,
+        "imagen": "uploads\/9874CVB.jpg"
+    },
+    {
+        "matricula": "9999XXX",
+        "marca": "Dani",
+        "modelo": "sdfsdf",
+        "potencia": 33223,
+        "velocidadMaxima": 2332,
+        "imagen": "uploads\/9999XXX.jpg"
+    }
+]
