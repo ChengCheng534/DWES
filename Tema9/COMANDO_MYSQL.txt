@@ -1,4 +1,4 @@
-C:\Program Files\Ampps\mysql\bin>
+cd \Program Files\Ampps\mysql\bin
 mysql -u root -p
 
 create table cliente (
