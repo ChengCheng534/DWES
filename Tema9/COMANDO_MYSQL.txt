@@ -2,10 +2,10 @@ cd \Program Files\Ampps\mysql\bin
 mysql -u root -p
 
 create table cliente (
-	cliente_id INT PRIMARY KEY, 
+	cliente_id INT PRIMARY KEY AUTO_INCREMENT, 
 	documento_identidad CHAR(9) UNIQUE, 
-	nombre VARCHAR(10) NOT NULL, 
-	apellidos VARCHAR(10) NOT NULL, 
+	nombre VARCHAR(100) NOT NULL, 
+	apellidos VARCHAR(100) NOT NULL, 
 	email VARCHAR(20), telefono INT, 
 	direccion VARCHAR(20), 
 	fecha_nacimiento VARCHAR(15), 
