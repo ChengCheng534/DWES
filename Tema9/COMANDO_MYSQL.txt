@@ -1,6 +1,6 @@
 cd \Program Files\Ampps\mysql\bin
 mysql -u root -p
-mysql -u root -p concesionario > script_completo.sql
+mysql -u root -p concesionario < script_completo.sql
 mysqldump -u root -p concesionario > script_completo.sql
 
 create table cliente (
