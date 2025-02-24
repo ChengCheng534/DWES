@@ -4,6 +4,7 @@ mysql -u root -p concesionario < script_completo.sql
 mysqldump -u root -p concesionario > script_completo.sql
 DROP DATABASE concesionario;
 CREATE DATABASE concesionario;
+USE concesionario;
 
 create table cliente (
 	cliente_id INT PRIMARY KEY AUTO_INCREMENT, 
